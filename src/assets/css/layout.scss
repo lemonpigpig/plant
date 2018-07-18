@@ -1,0 +1,21 @@
+
+.layout-bottom {
+  position: absolute;
+  width: 100%;
+  bottom: 150px;
+  .layout-flower {
+    width: 50px;
+    height: 60px;
+    position: absolute;
+    left: -38px;
+    top: -38px;
+  }
+  .layout-flower_picker {
+    position: absolute;
+    width: 19px;
+    height: 24px;
+    right: -38px;
+    bottom: 0px;
+  }
+}
+
