@@ -11,9 +11,10 @@
         </div>
         <div class="item-content">
           <input type="text" class="item-input" v-model="phone"
-          @focus="focus">
-          <div class="placeholder-help" @click="handleClick()">
-            <template v-if="isShowPlaceholder">
+          @focus="focus('isShowPhonePlace')"
+          @blur="blur('isShowPhonePlace', 'phone')">
+          <div class="placeholder-help">
+            <template v-if="isShowPhonePlace">
               <div>订花人手机号码</div>
               <div class="eg-help">Sender's tel</div>
             </template>
@@ -25,10 +26,11 @@
           <img src="../assets/images/login/captcha-icon.png" alt="">
         </div>
         <div class="item-content">
-          <input type="text" class="item-input" v-model="phone"
-          @focus="focus">
-          <div class="placeholder-help" @click="handleClick('phone')">
-            <template v-if="isShowPlaceholder">
+          <input type="text" class="item-input" v-model="captcha"
+          @focus="focus('isShowCaptchaPlace')"
+          @blur="blur('isShowCaptchaPlace', 'captcha')">
+          <div class="placeholder-help">
+            <template v-if="isShowCaptchaPlace">
               <div>图形验证码</div>
               <div class="eg-help">Verification code</div>
             </template>
@@ -40,13 +42,15 @@
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
         <div class="item-content">
-          <input type="text" class="item-input" v-model="phone"
-          @focus="focus">
-          <div class="placeholder-help" @click="handleClick()">
-            <template v-if="isShowPlaceholder">
+          <input type="text" class="item-input" v-model="certificate"
+          @focus="focus('isShowCertificatePlace')"
+          @blur="blur('isShowCertificatePlace', 'certificate')">
+          <div class="placeholder-help">
+            <div v-if="isShowCertificatePlace">
               <div>手机验证码</div>
               <div class="eg-help">Verification code</div>
-            </template>
+            </div>
+            <div class="send-btn" @click="sendCode">发送验证码</div>
           </div>
         </div>
       </div>
@@ -68,18 +72,27 @@
 export default {
   data () {
     return {
-      isShowPlaceholder: true,
       phone: '',
-      minHeight: null
+      captcha: '',
+      certificate: '',
+      minHeight: null,
+      isShowPhonePlace: true,
+      isShowCaptchaPlace: true,
+      isShowCertificatePlace: true
     }
   },
   methods: {
-    focus () {
-      this.isShowPlaceholder = false
-      // this.minHeight = document.documentElement.clientHeight + 'px'
+    focus (type) {
+      this.$set(this, type, false)
     },
-    handleClick () {
-      this.isShowInput = true
+    blur (type, value) {
+      if (!this[value]) {
+        console.log("type:", type, this[value])
+        this.$set(this, type, true)
+      }
+    },
+    sendCode () {
+      console.log('sendCode:')
     }
   },
   mounted () {
@@ -88,7 +101,17 @@ export default {
   watch: {
     phone (newVal, oldVal) {
       if (!newVal) {
-        this.isShowPlaceholder = true
+        this.isShowPhonePlace = true
+      }
+    },
+    captcha (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowCaptchaPlace = true
+      }
+    },
+    certificate (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowCertificatePlace = true
       }
     }
   }
@@ -96,8 +119,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss';
-
 .login {
   width: 100%;
   height: 100%;
@@ -106,7 +127,7 @@ export default {
   background: #FFE7E7;
   flex-direction: column;
   flex-shrink: none;
-  font-size: 0.48rem;
+  font-size: 0.24rem;
   display: flex;
   .flex-content {
     flex: 1;
@@ -187,14 +208,33 @@ export default {
         width: 26px;
         height: 26px;
       }
-      .phone-icon {
-      }
       .item-content {
         flex: 1;
         // border-bottom: 1px solid #FF6463;
         text-align: left;
         position: relative;
         height: 24px;
+        .placeholder-help {
+          // display: flex;
+          // justify-content: space-between;
+          .eg-help {
+            margin-top: 5px;
+            font-size: 0.2rem
+          }
+          .send-btn {
+            width: 1.48rem;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 0.22rem;
+            color: #FF6463;
+            padding: 0.15rem 0;
+            border-radius: 0.26rem;
+            border: 1px solid #FFC1C1;
+            position: absolute;
+            top: -0.2rem;
+            right: 0px;
+          }
+        }
         input {
           width: 100%;
           position: absolute;
@@ -202,11 +242,9 @@ export default {
           height: 100%;
           color: #FF6463;
           background: transparent;
+          font-size: 0.26rem;
         }
-        .eg-help {
-          margin-top: 5px;
-          font-size: 0.2rem
-        }
+       
       }
     }
   }
