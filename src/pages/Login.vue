@@ -1,7 +1,8 @@
 <template>
   <div class="login" :style="{minHeight: minHeight}">
     <div class="layout-top">
-      <img src="../assets/images/layout/layout-top.png" alt="">
+    </div>
+    <div class="flex-content">
     </div>
     <div class="form-lists">
       <div class="form-item">
@@ -58,20 +59,7 @@
         </span>
       </div>
     </div>
-    <!-- <div class="layout-bottom">
-      <div class="ercode">
-        <div class="ercode-img">
-           <div class="layout-flower">
-            <img src="../assets/images/login/flower.png" alt="">
-          </div>
-          <div class="layout-flower_picker">
-            <img src="../assets/images/login/flower-picker.png" alt="">
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="layout-bottom_bg">
-      <img src="../assets/images/layout/layout-bottom.png" alt="">
     </div>
   </div>
 </template>
@@ -120,8 +108,15 @@ export default {
   flex-shrink: none;
   font-size: 0.48rem;
   display: flex;
+  .flex-content {
+    flex: 1;
+    background:#FFE7E7;
+  }
   .layout-top {
     width: 100%;
+    height: 2.8rem;
+    background: url('../assets/images/layout/layout-top.png') no-repeat;
+    background-size: 100%;
   }
   .ercode {
     width: 100%;
@@ -140,7 +135,7 @@ export default {
     width: 100%;
     height: 0.88rem;
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     background: #FF7A7A;
     border-radius: 0.44rem;
     display: flex;
@@ -150,29 +145,11 @@ export default {
     padding: 0.2rem 0 0.2rem 0;
     box-sizing: border-box;
   }
-  .layout-bottom {
-    position: absolute;
-    width: 100%;
-    bottom: 150px;
-    .layout-flower {
-      width: 50px;
-      height: 60px;
-      position: absolute;
-      left: -38px;
-      top: -38px;
-    }
-    .layout-flower_picker {
-      position: absolute;
-      width: 19px;
-      height: 24px;
-      right: -38px;
-      bottom: 0px;
-    }
-  }
   .layout-bottom_bg {
-    // width: 100%;
     height: 100%;
-    flex: 1;
+    height: 6.24rem;
+    background: url('../assets/images/layout/layout-bottom1.png') no-repeat;
+    background-size: 100%;
   }
   img {
     width: 100%;
@@ -181,12 +158,13 @@ export default {
   }
 
   .form-lists {
+    top: 80px;
     padding: 0px 34px 0 41px;
     box-sizing: border-box;
     font-size: 0.24rem;
-    position: relative;
-    // flex: 1;
-    margin-top: -64px;
+    position: absolute;
+    width: 100%;
+    background: #FFE7E7;
     .form-item {
       display: flex;
       align-items: center;
