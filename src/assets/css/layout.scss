@@ -1,21 +1,31 @@
 
-.layout-bottom {
-  position: absolute;
+.layout-top {
   width: 100%;
-  bottom: 150px;
-  .layout-flower {
-    width: 50px;
-    height: 60px;
-    position: absolute;
-    left: -38px;
-    top: -38px;
-  }
-  .layout-flower_picker {
-    position: absolute;
-    width: 19px;
-    height: 24px;
-    right: -38px;
-    bottom: 0px;
-  }
+  height: 2.8rem;
+  background: url('../assets/images/layout/layout-top.png') no-repeat;
+  background-size: 100%;
 }
 
+.flex-content {
+  flex: 1;
+  background:#FFE7E7;
+}
+.ercode {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  .ercode-img {
+    width: 2rem;
+    height: 2rem;
+    background: red;
+    display: inline-block;
+    position: relative;
+  }
+}
+.layout-bottom_bg {
+  height: 100%;
+  height: 6.24rem;
+  background: url('../assets/images/layout/layout-bottom1.png') no-repeat;
+  background-size: 100%;
+}

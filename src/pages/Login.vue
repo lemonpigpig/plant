@@ -21,6 +21,7 @@
           </div>
         </div>
       </div>
+      <div class="rem1" style="background: transparent;"></div>
       <div class="form-item">
         <div class="item-icon captcha-icon">
           <img src="../assets/images/login/captcha-icon.png" alt="">
@@ -37,7 +38,8 @@
           </div>
         </div>
       </div>
-      <div class="form-item">
+      <div class="rem1"></div>
+      <div class="form-item" style="background: #FFE7E7;">
         <div class="item-icon certificate-icon">
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
@@ -54,6 +56,7 @@
           </div>
         </div>
       </div>
+      <div class="rem12"></div>
       <div class="submit-btn">
         <span>
           提交
@@ -119,6 +122,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/layout.scss'; /*引入公共样式*/
+
 .login {
   width: 100%;
   height: 100%;
@@ -126,37 +131,13 @@ export default {
   flex: 1;
   background: #FFE7E7;
   flex-direction: column;
-  flex-shrink: none;
   font-size: 0.24rem;
   display: flex;
-  .flex-content {
-    flex: 1;
-    background:#FFE7E7;
-  }
-  .layout-top {
-    width: 100%;
-    height: 2.8rem;
-    background: url('../assets/images/layout/layout-top.png') no-repeat;
-    background-size: 100%;
-  }
-  .ercode {
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    bottom: 0px;
-    .ercode-img {
-      width: 2rem;
-      height: 2rem;
-      background: red;
-      display: inline-block;
-      position: relative;
-    }
-  }
   .submit-btn {
     width: 100%;
     height: 0.88rem;
     text-align: center;
-    margin-top: 1.2rem;
+    // margin-top: 1.2rem;
     background: #FF7A7A;
     border-radius: 0.44rem;
     display: flex;
@@ -166,18 +147,22 @@ export default {
     padding: 0.2rem 0 0.2rem 0;
     box-sizing: border-box;
   }
-  .layout-bottom_bg {
-    height: 100%;
-    height: 6.24rem;
-    background: url('../assets/images/layout/layout-bottom1.png') no-repeat;
-    background-size: 100%;
-  }
+  
   img {
     width: 100%;
     pointer-events: none;
     user-select:none;
   }
-
+  .rem1 {
+    width: 100%;
+    height: 1rem;
+    background: #FFE7E7;
+  }
+  .rem12{
+    width: 100%;
+    height: 1.2rem;
+    background: #FFE7E7;
+  }
   .form-lists {
     top: 80px;
     padding: 0px 34px 0 41px;
@@ -185,12 +170,12 @@ export default {
     font-size: 0.24rem;
     position: absolute;
     width: 100%;
-    background: #FFE7E7;
+    // background: #FFE7E7;
     .form-item {
       display: flex;
       align-items: center;
       position: relative;
-      margin-top: 1rem;
+      // margin-top: 1rem;
       &:first-child {
         margin-top: 0px;
       }
@@ -204,19 +189,18 @@ export default {
         height: 1px;
       }
       .item-icon {
-        margin-right: 5px;
+        margin-right: 8px;
         width: 26px;
         height: 26px;
+        background: transparent;
       }
       .item-content {
         flex: 1;
-        // border-bottom: 1px solid #FF6463;
         text-align: left;
         position: relative;
         height: 24px;
+        background: #FFE7E7;
         .placeholder-help {
-          // display: flex;
-          // justify-content: space-between;
           .eg-help {
             margin-top: 5px;
             font-size: 0.2rem
