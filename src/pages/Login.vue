@@ -21,41 +21,45 @@
           </div>
         </div>
       </div>
-      <div class="rem1" style="background: transparent;"></div>
-      <div class="form-item">
-        <div class="item-icon captcha-icon">
-          <img src="../assets/images/login/captcha-icon.png" alt="">
-        </div>
-        <div class="item-content">
-          <input type="text" class="item-input" v-model="captcha"
-          @focus="focus('isShowCaptchaPlace')"
-          @blur="blur('isShowCaptchaPlace', 'captcha')">
-          <div class="placeholder-help">
-            <template v-if="isShowCaptchaPlace">
-              <div>图形验证码</div>
-              <div class="eg-help">Verification code</div>
-            </template>
+      
+      <div style="background:#FFE7E7">
+        <div class="rem1" style="background: transparent;"></div>
+        <div class="form-item">
+          <div class="item-icon captcha-icon">
+            <img src="../assets/images/login/captcha-icon.png" alt="">
           </div>
-        </div>
-      </div>
-      <div class="rem1"></div>
-      <div class="form-item" style="background: #FFE7E7;">
-        <div class="item-icon certificate-icon">
-          <img src="../assets/images/login/certificate-icon.png" alt="">
-        </div>
-        <div class="item-content">
-          <input type="text" class="item-input" v-model="certificate"
-          @focus="focus('isShowCertificatePlace')"
-          @blur="blur('isShowCertificatePlace', 'certificate')">
-          <div class="placeholder-help">
-            <div v-if="isShowCertificatePlace">
-              <div>手机验证码</div>
-              <div class="eg-help">Verification code</div>
+          <div class="item-content">
+            <input type="text" class="item-input" v-model="captcha"
+            @focus="focus('isShowCaptchaPlace')"
+            @blur="blur('isShowCaptchaPlace', 'captcha')">
+            <div class="placeholder-help">
+              <template v-if="isShowCaptchaPlace">
+                <div>图形验证码</div>
+                <div class="eg-help">Verification code</div>
+              </template>
             </div>
-            <div class="send-btn" @click="sendCode">发送验证码</div>
+          </div>
+        </div>
+        <div class="rem1"></div>
+        <div class="form-item" style="background: #FFE7E7;">
+          <div class="item-icon certificate-icon">
+            <img src="../assets/images/login/certificate-icon.png" alt="">
+          </div>
+          <div class="item-content">
+            <input type="text" class="item-input" v-model="certificate"
+            @focus="focus('isShowCertificatePlace')"
+            @blur="blur('isShowCertificatePlace', 'certificate')">
+            <div class="placeholder-help">
+              <div v-if="isShowCertificatePlace">
+                <div>手机验证码</div>
+                <div class="eg-help">Verification code</div>
+              </div>
+              <div class="send-btn" @click="sendCode">发送验证码</div>
+            </div>
           </div>
         </div>
       </div>
+     
       <div class="rem12"></div>
       <div class="submit-btn">
         <span>
@@ -68,10 +72,13 @@
     </div>
     <div class="layout-bottom_bg">
     </div>
+    <Ercode/>
   </div>
 </template>
 
 <script>
+import Ercode from '@/components/Ercode.vue';
+
 export default {
   data () {
     return {
@@ -83,6 +90,9 @@ export default {
       isShowCaptchaPlace: true,
       isShowCertificatePlace: true
     }
+  },
+  components: {
+    Ercode
   },
   methods: {
     focus (type) {
@@ -150,8 +160,6 @@ export default {
   
   img {
     width: 100%;
-    pointer-events: none;
-    user-select:none;
   }
   .rem1 {
     width: 100%;
@@ -169,6 +177,7 @@ export default {
     box-sizing: border-box;
     font-size: 0.24rem;
     position: absolute;
+    z-index: 9999;
     width: 100%;
     // background: #FFE7E7;
     .form-item {
@@ -183,13 +192,13 @@ export default {
         position: absolute;
         content: '';
         background: #FF6463;
-        left: 32px;
+        left: 36px;
         bottom: -10px;
         right: 0px;
         height: 1px;
       }
       .item-icon {
-        margin-right: 8px;
+        margin-right: 10px;
         width: 26px;
         height: 26px;
         background: transparent;

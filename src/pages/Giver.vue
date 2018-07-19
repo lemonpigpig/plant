@@ -30,15 +30,21 @@
         <span>Only modified CARDS that are not read by the recipient</span>
       </div>
     </div>
+    <Ercode/>
   </div>
 </template>
 
 <script>
+import Ercode from '@/components/Ercode.vue';
+
 export default {
   data () {
     return {
      
     }
+  },
+  components: {
+    Ercode
   },
   methods: {
    
