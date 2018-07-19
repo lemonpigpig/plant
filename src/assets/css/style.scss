@@ -1,0 +1,27 @@
+.self-radio {
+  // 安卓会有问题 如果使用rem
+  // width: 0.28rem;
+  // height: 0.28rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  &-checked_not {
+    background: rgba(255,255,255, .7);
+  }
+  &-radio_checked {
+    background: rgba(255,255,255, .7);
+    border: 1px solid #FFA0A0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    &:before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: #FF6463;
+      border-radius: 50%;
+    }
+  }
+}
