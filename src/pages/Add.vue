@@ -14,8 +14,9 @@
         <div class="item-content">
           <input type="text" class="item-input"
           @focus="focus('isShowPhonePlace')"
-          @blur="blur('isShowPhonePlace', 'phone')">
-          <div class="placeholder-help">
+          @blur="blur('isShowPhonePlace', 'phone')" 
+          v-model="phone">
+          <div class="placeholder-help" v-if="isShowPhonePlace">
             <template>
               <div>收花人手机号码*</div>
               <div class="eg-help">Recipient's tel</div>
@@ -29,9 +30,10 @@
         </div>
         <div class="item-content">
           <input type="text" class="item-input"
-          @focus="focus('isShowCaptchaPlace')"
-          @blur="blur('isShowCaptchaPlace', 'captcha')">
-          <div class="placeholder-help">
+          @focus="focus('isShowTitlePlace')"
+          @blur="blur('isShowTitlePlace', 'title')"
+          v-model="title">
+          <div class="placeholder-help" v-if="isShowTitlePlace">
             <template>
               <div>称呼*</div>
               <div class="eg-help">To</div>
@@ -59,11 +61,14 @@
         <div class="item-icon certificate-icon">
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
-        <div class="item-content" style="height: auto;">
-          <div ref="sendContent" contenteditable="true" v-html="sendContent" class="item-input item-textarea"
-          @focus="focus('isShowCertificatePlace')"
-          @blur="blur('isShowCertificatePlace', 'certificate')"></div>
-          <div class="placeholder-help">
+        <div class="item-content" style="height: auto;min-height: 0.48rem;">
+          <div ref="sendContent" contenteditable="true" 
+          class="item-input item-textarea"
+          @focus="focus('isShowMsgPlace')"
+          @blur="blur('isShowMsgPlace', 'msg')"
+          @input="handleInput"
+          v-html="msg"></div>
+          <div class="placeholder-help" v-if="isShowMsgPlace">
             <div>
               <div>留言*<span>(不超过200字)</span></div>
               <div class="eg-help">Leave a message</div>
@@ -77,10 +82,11 @@
         </div>
         <div class="item-content">
           <input type="text" class="item-input"
-          @focus="focus('isShowCertificatePlace')"
-          @blur="blur('isShowCertificatePlace', 'certificate')">
+          @focus="focus('isShowFromPlace')"
+          @blur="blur('isShowFromPlace', 'from')"
+          v-model="from">
           <div class="placeholder-help">
-            <div>
+            <div v-if="isShowFromPlace">
               <div>落款<span>(不填写默认为匿名)</span></div>
               <div class="eg-help">From</div>
             </div>
@@ -115,14 +121,14 @@ export default {
   data () {
     return {
       activeRadio: 2,
-      sendContent: '',
       phone: '',
-      captcha: '',
-      certificate: '',
-      minHeight: null,
+      title: '',
+      from: '',
+      msg: '',
       isShowPhonePlace: true,
-      isShowCaptchaPlace: true,
-      isShowCertificatePlace: true
+      isShowTitlePlace: true,
+      isShowFromPlace: true,
+      isShowMsgPlace: true
     }
   },
   methods: {
@@ -130,19 +136,47 @@ export default {
       this.activeRadio = type
     },
     focus (type) {
-
+      console.log('focus:', focus)
+      this.$set(this, type, false)
     },
-    blur (type) {
-
+    blur (type, value) {
+      if (!this[value] && type !== 'isShowMsgPlace') {
+        console.log("type:", type, this[value])
+        this.$set(this, type, true)
+      }
     },
-    sendMsg () {
-      console.log('---------sendMsg---------')
+    handleInput () {
+      let value = this.$refs.sendContent.innerHTML
+      if(!value || value.length < 1) {
+        this.isShowMsgPlace = true
+      } else {
+        this.isShowMsgPlace = false
+      }
     }
   },
   mounted () {
   },
   watch: {
-  
+    phone (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowPhonePlace = true
+      }
+    },
+    title (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowTitlePlace = true
+      }
+    },
+    msg (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowMsgPlace = true
+      }
+    },
+    from (newVal, oldVal) {
+      if (!newVal) {
+        this.isShowFromPlace = true
+      }
+    }
   }
 }
 </script>
@@ -163,7 +197,7 @@ export default {
         background: transparent;
         .item-textarea {
           width: 5.32rem;
-          min-height:0.48rem;
+          min-height: 0.48rem;
           border: none;
           outline: none;
         }
