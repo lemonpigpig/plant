@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/pages/Login'
 import Giver from '@/pages/Giver'
+import Add from '@/pages/Add'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/giver',
       name: 'Giver',
       component: Giver
-    }
+    },
+    {
+      path: '/add',
+      name: 'Add',
+      component: Add
+    },
   ]
 })
