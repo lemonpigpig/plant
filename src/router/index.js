@@ -8,6 +8,7 @@ import WishTemplate from '@/pages/WishTemplate'
 import Detail from '@/pages/Detail'
 import CardList from '@/pages/CardList'
 import ToCardList from '@/pages/ToCardList'
+import DefaultCard from '@/pages/DefaultCard'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/toList',
       name: 'ToCardList',
       component: ToCardList
+    },
+    {
+      path: '/defaultCard',
+      name: 'DefaultCard',
+      component: DefaultCard
     },
     
   ]
