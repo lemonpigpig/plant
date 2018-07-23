@@ -13,7 +13,6 @@
         </div>
         <div class="status-icon">
           收花人未读
-          <!-- <img src="../assets/images/card/read.png" alt=""> -->
         </div>
       </div>
     </div>

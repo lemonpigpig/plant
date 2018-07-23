@@ -7,6 +7,7 @@ import Add from '@/pages/Add'
 import WishTemplate from '@/pages/WishTemplate'
 import Detail from '@/pages/Detail'
 import CardList from '@/pages/CardList'
+import ToCardList from '@/pages/ToCardList'
 
 Vue.use(Router)
 
@@ -47,5 +48,11 @@ export default new Router({
       name: 'CardList',
       component: CardList
     },
+    {
+      path: '/toList',
+      name: 'ToCardList',
+      component: ToCardList
+    },
+    
   ]
 })
