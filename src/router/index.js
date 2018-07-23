@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/pages/Login'
 import Giver from '@/pages/Giver'
 import Add from '@/pages/Add'
+import WishTemplate from '@/pages/WishTemplate'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/add',
       name: 'Add',
       component: Add
+    },
+    {
+      path: '/wishTemplate',
+      name: 'WishTemplate',
+      component: WishTemplate
     },
   ]
 })
