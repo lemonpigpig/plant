@@ -5,6 +5,8 @@ import Login from '@/pages/Login'
 import Giver from '@/pages/Giver'
 import Add from '@/pages/Add'
 import WishTemplate from '@/pages/WishTemplate'
+import Detail from '@/pages/Detail'
+import CardList from '@/pages/CardList'
 
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ export default new Router({
       path: '/wishTemplate',
       name: 'WishTemplate',
       component: WishTemplate
+    },
+    {
+      path: '/detail',
+      name: 'Detail',
+      component: Detail
+    },
+    {
+      path: '/list',
+      name: 'CardList',
+      component: CardList
     },
   ]
 })
