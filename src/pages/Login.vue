@@ -33,10 +33,13 @@
             @focus="focus('isShowCaptchaPlace')"
             @blur="blur('isShowCaptchaPlace', 'captcha')">
             <div class="placeholder-help">
-              <template v-if="isShowCaptchaPlace">
+              <div v-if="isShowCaptchaPlace">
                 <div>图形验证码</div>
                 <div class="eg-help">Verification code</div>
-              </template>
+              </div>
+              <div class="send-btn send-btn_captchas" @click="sendCode">
+                <img :src="url" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -77,8 +80,17 @@
 </template>
 
 <script>
-import Ercode from '@/components/Ercode.vue';
-
+import Ercode from '@/components/Ercode.vue'
+import { mapActions, mapGetters } from "vuex"
+import BoqiiAuth from 'boqii-node-auth'
+import Fly from 'flyio'
+const flyin = new Fly()
+const auth = new BoqiiAuth();
+let param = {
+      width: 160,
+      height: 80,
+      length: 5
+    }
 export default {
   data () {
     return {
@@ -88,13 +100,17 @@ export default {
       minHeight: null,
       isShowPhonePlace: true,
       isShowCaptchaPlace: true,
-      isShowCertificatePlace: true
+      isShowCertificatePlace: true,
+      url: 'http://api-plant-dev.boqii.com/extern/captchas?width=110&height=40&length=4'
     }
   },
   components: {
     Ercode
   },
   methods: {
+     ...mapActions([
+      'getCaptcha'
+    ]),
     focus (type) {
       this.$set(this, type, false)
     },
@@ -105,11 +121,31 @@ export default {
       }
     },
     sendCode () {
+      this.url = this.url+'&b='+Math.random()
       console.log('sendCode:')
     }
   },
   mounted () {
-    console.log('from id:', this.$route.params)
+    // flyin.request('http://api-plant-dev.boqii.com/extern/captchas', param, {
+    //   headers: {
+    //    'Sign': auth.signParams(param),
+    //     'Authorization':  '',
+    //     'Vary-Client': 'web',
+    //   },
+    //   method: 'get',
+    //   timeout: 10000 //超时设置为5s
+    // }).then((res) => {
+    //   this.url = res
+    //   console.log('res:', res, res.data)
+    // })
+    // this.getCaptcha({
+    //   width: 148,
+    //   height: 50,
+    //   length: 4
+    // }).then((res) => {
+    //   console.log('-----res-----:', res)
+    // })
+    // console.log('from id:', this.$route.params)
   },
   watch: {
     phone (newVal, oldVal) {
@@ -214,18 +250,11 @@ export default {
             margin-top: 5px;
             font-size: 0.2rem
           }
-          .send-btn {
-            width: 1.48rem;
-            box-sizing: border-box;
-            text-align: center;
-            font-size: 0.22rem;
-            color: #FF6463;
-            padding: 0.15rem 0;
-            border-radius: 0.26rem;
-            border: 1px solid #FFC1C1;
-            position: absolute;
-            top: -0.2rem;
-            right: 0px;
+          .send-btn_captchas {
+            border: none;
+            img {
+              border-radius: 0.26rem;
+            }
           }
         }
         input {
