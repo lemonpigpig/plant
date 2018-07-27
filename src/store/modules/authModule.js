@@ -3,7 +3,7 @@
  * @desc 用户登录注册模块
  */
 import ApiNodeAction from '@/service/apiNodeAction';
-import { sendCode, getCaptcha, testApi } from '@/service/apiConfig';
+import { sendCode, login, checkCode } from '@/service/apiConfig';
 
 // init state
 const state = {
@@ -15,20 +15,8 @@ const getters = {
 
 // init actions 
 const actions = {
-  test({
-    commit,
-    state
-  }, params) {
-    return new Promise((resolve, reject) => {
-      ApiNodeAction(testApi, params).then(data => {
-        resolve(data);
-      },err=>{
-          reject(err);
-      })
-    })
-  },
     /**
-     * @desc 发送短信验证码
+     * @desc 发送短信验证码 requestno：客户端流水号
      * @param { Act: '/user/token/send/:requestno', mobile, captcha, type }
      */
     sendCode({
@@ -44,20 +32,44 @@ const actions = {
         })
     },
     /**
-     * @desc 获取图形验证码
-     * @param { Act: 'extern', width, height, length }
+     * @desc 快速登陆
+     * @param 
+     * username: {string} 必选, 波奇用户名/邮箱/手机号
+     * password: {string} 密码md5, 密码登录时必须
+     * token: {string} 验证码，手机验证登录必须
+     * invitation: {string} 可选, 邀请码
      */
-    getCaptcha({
+    login({
         commit,
         state
     }, params) {
         return new Promise((resolve, reject) => {
-            ApiNodeAction(getCaptcha, params).then(data => {
+            ApiNodeAction(login, params).then(data => {
                 resolve(data);
             },err=>{
                 reject(err);
             })
         })
+    },
+    /**
+     * @desc check 验证码是否有效
+     * @param 
+     * mobile: {string} 必填, 用户手机号码
+     * type: {number} 必填, 验证码类型 6电子贺卡
+     * token: {string} 验证码，必须
+     */
+
+    checkCode({
+      commit,
+      state
+    }, params) {
+      return new Promise((resolve, reject) => {
+        ApiNodeAction(checkCode, params).then(data => {
+            resolve(data);
+        },err=>{
+            reject(err);
+        })
+      })
     },
     /**
      * @desc node 图片上传模块

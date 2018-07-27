@@ -1,5 +1,6 @@
 <template>
   <div class="login" :style="{minHeight: minHeight}">
+    <Toast ref="toast"/>
     <div class="layout-top">
     </div>
     <div class="flex-content">
@@ -37,7 +38,7 @@
                 <div>图形验证码</div>
                 <div class="eg-help">Verification code</div>
               </div>
-              <div class="send-btn send-btn_captchas" @click="sendCode">
+              <div class="send-btn send-btn_captchas" @click="sendCaptchaCode">
                 <img :src="url" alt="">
               </div>
             </div>
@@ -57,14 +58,14 @@
                 <div>手机验证码</div>
                 <div class="eg-help">Verification code</div>
               </div>
-              <div class="send-btn" @click="sendCode">发送验证码</div>
+              <div class="send-btn" @click="getCode">发送验证码</div>
             </div>
           </div>
         </div>
       </div>
      
       <div class="rem12"></div>
-      <div class="submit-btn">
+      <div class="submit-btn" @click="userLogin">
         <span>
           提交
         </span>
@@ -82,15 +83,7 @@
 <script>
 import Ercode from '@/components/Ercode.vue'
 import { mapActions, mapGetters } from "vuex"
-import BoqiiAuth from 'boqii-node-auth'
-import Fly from 'flyio'
-const flyin = new Fly()
-const auth = new BoqiiAuth();
-let param = {
-      width: 160,
-      height: 80,
-      length: 5
-    }
+
 export default {
   data () {
     return {
@@ -109,7 +102,9 @@ export default {
   },
   methods: {
      ...mapActions([
-      'getCaptcha'
+      'login',
+      'sendCode',
+      'checkCode'
     ]),
     focus (type) {
       this.$set(this, type, false)
@@ -120,35 +115,49 @@ export default {
         this.$set(this, type, true)
       }
     },
-    sendCode () {
+    async userLogin () {
+      console.log('----ppp------:', this.$refs['toast'])
+      this.$refs['toast'].show({
+        title: '请输入手机号码'
+      })
+      return
+      let { status } = await this.checkCode({
+        mobile: this.phone,
+        type: 6,
+        token: this.certificate
+      })
+      console.log('------status-----:', status)
+      if (status === 0) {
+        await this.login({
+          username: this.phone,
+          token: this.certificate
+        })
+      }
+    },
+    sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
-      console.log('sendCode:')
+    },
+    getCode () {
+      this.sendCode({
+        mobile: this.phone,
+        captcha: this.captcha,
+        type: 6,
+        params: {
+          requestno: 1,
+        }
+      }).then((res) => {
+        console.log('-----res-----:', res)
+      }, (err) => {
+        console.log('------err-----:', err)
+      })
     }
   },
   mounted () {
-    // flyin.request('http://api-plant-dev.boqii.com/extern/captchas', param, {
-    //   headers: {
-    //    'Sign': auth.signParams(param),
-    //     'Authorization':  '',
-    //     'Vary-Client': 'web',
-    //   },
-    //   method: 'get',
-    //   timeout: 10000 //超时设置为5s
-    // }).then((res) => {
-    //   this.url = res
-    //   console.log('res:', res, res.data)
-    // })
-    // this.getCaptcha({
-    //   width: 148,
-    //   height: 50,
-    //   length: 4
-    // }).then((res) => {
-    //   console.log('-----res-----:', res)
-    // })
-    // console.log('from id:', this.$route.params)
+    console.log('from id:', this.$route.params)
   },
   watch: {
     phone (newVal, oldVal) {
+      console.log('------phone')
       if (!newVal) {
         this.isShowPhonePlace = true
       }

@@ -22,14 +22,13 @@ class ApiBaseAction {
         })
         this.fly.interceptors.response.use(
             function (response, promise) {
-                if( response.data.ResponseStatus === 0 ){
+                if( response.status === 200 ){
                     return promise.resolve(response.data)
                 }else{
                     return promise.reject(response.data)
                 }
             },
             function (err, promise) {
-              console.log('err-----:', err)
               if( err.message.indexOf('timeout') != -1){
                 console.log('请求超时')
                 return promise.reject(err)
@@ -77,18 +76,18 @@ class ApiBaseAction {
             delete params.params;
         }
         return new Promise((resolve,reject)=>{
-            self.fly.request(apiUrl, params, {
+          self.fly.request(apiUrl, params, {
               headers: Object.assign(this.$defaultHeaders(params), apiConfig.headers),
               method: apiConfig.method,
               timeout: 10000 //超时设置为5s
-            }).then((data = {}) => {
-                console.log("data", data)
-                resolve(data);
-            }, err=>{
-              console.log('----err----:', err)
+          }).then((data = {}) => {
+              console.log("data", data)
+              resolve(data);
+          }, err=>{
+              alert('err')
               reject(err);
-            }).catch((e) => console.log("error===========", e))
-        })
+          }).catch((e) => console.log("error===========", e))
+      })
     }
 }
 

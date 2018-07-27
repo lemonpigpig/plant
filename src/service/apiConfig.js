@@ -1,6 +1,6 @@
 
 export const isProduction = process.env.NODE_ENV === 'production';
-export const NODEAPI = isProduction ? 'https://api-plant.boqii.com' : 'http://api-plant-dev.boqii.com/';
+export const NODEAPI = isProduction ? 'https://api-plant.boqii.com' : 'http://api-plant-dev.boqii.com/api/v2';
 // export const NODEAPI = isProduction ? 'http://172.16.58.186:3100/' : 'http://172.16.58.186:3100/';
 
 export const QINIU_SPACE = isProduction ? 'https://api.boqiicdn.com' : 'https://api-dev.boqiicdn.com';
@@ -13,6 +13,9 @@ export const qiniuUpload = { url: '/resources/qiniu_upload', method: 'post' };
 
 /**send code api */
  export const sendCode = { url: '/user/token/send/:requestno', method: 'post' }
- export const getCaptcha = { url: '/extern/captchas', method: 'GET' }
- export const testApi = { url: '/testApi', method: 'GET' }
- 
+
+ /**user login by code */
+ export const login = { url: '/user/login', method: 'post' }
+ /**check code */
+ export const checkCode = { url: '/user/token/check', method: 'post' }
+
