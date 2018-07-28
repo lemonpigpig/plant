@@ -12,7 +12,7 @@ class ApiNodeAction extends ApiBaseAction {
 			return {
 				'Authorization':  '',
 				'Sign': this.auth.signParams(delEmpty(params)),
-				'Vary-Client': 'web',
+        'Vary-Client': 'web'
 			}
 		};
 	}

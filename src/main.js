@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import store from '@/store'
 import ui from '@/components/ui'
+import Cookies from  'js-cookie'
+console.log('--------Cookies-------:', Cookies.get('captcha'))
 
 for (let i=0; i<Object.keys(ui).length; i++) {
   let componentName = Object.keys(ui)[i]

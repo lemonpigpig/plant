@@ -79,12 +79,13 @@ class ApiBaseAction {
           self.fly.request(apiUrl, params, {
               headers: Object.assign(this.$defaultHeaders(params), apiConfig.headers),
               method: apiConfig.method,
-              timeout: 10000 //超时设置为5s
+              timeout: 10000, //超时设置为5s
+              withCredentials: true
           }).then((data = {}) => {
               console.log("data", data)
               resolve(data);
           }, err=>{
-              alert('err')
+              // alert('err')
               reject(err);
           }).catch((e) => console.log("error===========", e))
       })

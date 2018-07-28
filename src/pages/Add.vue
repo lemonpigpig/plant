@@ -160,21 +160,29 @@ export default {
     phone (newVal, oldVal) {
       if (!newVal) {
         this.isShowPhonePlace = true
+      } else {
+        this.isShowPhonePlace = false
       }
     },
     title (newVal, oldVal) {
       if (!newVal) {
         this.isShowTitlePlace = true
+      } else {
+        this.isShowTitlePlace = false
       }
     },
     msg (newVal, oldVal) {
       if (!newVal) {
         this.isShowMsgPlace = true
+      } else {
+        this.isShowMsgPlace = false
       }
     },
     from (newVal, oldVal) {
       if (!newVal) {
         this.isShowFromPlace = true
+      } else {
+        this.isShowFromPlace = false
       }
     }
   }

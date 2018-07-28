@@ -157,19 +157,24 @@ export default {
   },
   watch: {
     phone (newVal, oldVal) {
-      console.log('------phone')
       if (!newVal) {
         this.isShowPhonePlace = true
+      } else {
+        this.isShowPhonePlace = false
       }
     },
     captcha (newVal, oldVal) {
       if (!newVal) {
         this.isShowCaptchaPlace = true
+      } else {
+        this.isShowCaptchaPlace = false
       }
     },
     certificate (newVal, oldVal) {
       if (!newVal) {
         this.isShowCertificatePlace = true
+      } else {
+        this.isShowCertificatePlace = false
       }
     }
   }

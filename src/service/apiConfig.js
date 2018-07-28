@@ -19,3 +19,11 @@ export const qiniuUpload = { url: '/resources/qiniu_upload', method: 'post' };
  /**check code */
  export const checkCode = { url: '/user/token/check', method: 'post' }
 
+/**get cardList */
+export const cardList = { url: '/greeting/cards', method: 'GET' }
+
+/**add card */
+export const addCard = { url: '/greeting/cards/:requestno', method: 'GET' }
+
+/**标记电子贺卡为已读 */
+export const tagRead = { url: '/greeting/cards/:id/read', method: 'GET' }
