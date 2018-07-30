@@ -34,7 +34,7 @@
       <div class="template-item">
         美丽玫瑰花，心愿内里藏。送给知音人，相知又相傍。今生只为你，誓言对你讲。花朵会枯萎，爱情不变样。愿你收下这份情，你我幸福长！
       </div>
-        <div class="template-item">
+      <div class="template-item">
         愿生活里有热汤和甜食
         <br/>
         背包里有书本和远方。<br/>

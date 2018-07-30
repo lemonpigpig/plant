@@ -11,8 +11,8 @@
         <div class="time">
           2018.07.12
         </div>
-        <div class="status-icon">
-          收花人未读
+        <div class="status-icon read">
+          收花人已读
         </div>
       </div>
     </div>
@@ -70,14 +70,24 @@ export default {
       position: absolute;
       width: 1.26rem;
       height: .3rem;
-      background: url('../assets/images/card/read.png');
-      background-size: 100% 100%;
+      // background-size: 100% 100%;
       // color: #fff;
       font-size: .2rem;
       text-align: right;
       line-height: .3rem;
       top: .3rem;
       right: 0;
+      padding: .02rem .08rem .02rem .22rem;
+      &.read{
+        color: #FF6463;
+        background: url('../assets/images/card/read.png');
+        background-size: 100% 100%;
+      }
+      &.not-read {
+        color: #FFFFFF;
+        background: url('../assets/images/card/not-read.png');
+        background-size: 100% 100%;
+      }
     }
 
   }

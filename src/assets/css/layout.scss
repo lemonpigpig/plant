@@ -1,9 +1,11 @@
 .flex-box {
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  height: 100vh;
   color: #FF6463;
   flex: 1;
   background: #FFE7E7;
+  // background: red;
   flex-direction: column;
   font-size: 0.24rem;
   // display: flex;
@@ -32,6 +34,9 @@
   height: 5.94rem;
   background: url('../assets/images/layout/layout-bottom.png') no-repeat;
   background-size: 100%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .form-lists {

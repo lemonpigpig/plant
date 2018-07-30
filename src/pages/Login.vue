@@ -1,5 +1,5 @@
 <template>
-  <div class="login" :style="{minHeight: minHeight}">
+  <div class="login flex-box">
     <Toast ref="toast"/>
     <div class="layout-top">
     </div>
@@ -116,23 +116,25 @@ export default {
       }
     },
     async userLogin () {
-      console.log('----ppp------:', this.$refs['toast'])
-      this.$refs['toast'].show({
-        title: '请输入手机号码'
-      })
-      return
-      let { status } = await this.checkCode({
-        mobile: this.phone,
-        type: 6,
+      // this.$refs['toast'].show({
+      //   title: '请输入手机号码'
+      // })
+      // let { status } = await this.checkCode({
+      //   mobile: this.phone,
+      //   type: 6,
+      //   token: this.certificate
+      // })
+      // console.log('------status-----:', status)
+      // if (status === 0) {
+      //   await this.login({
+      //     username: this.phone,
+      //     token: this.certificate
+      //   })
+      // }
+      await this.login({
+        username: this.phone,
         token: this.certificate
       })
-      console.log('------status-----:', status)
-      if (status === 0) {
-        await this.login({
-          username: this.phone,
-          token: this.certificate
-        })
-      }
     },
     sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
@@ -185,14 +187,11 @@ export default {
 @import '../assets/css/layout.scss'; /*引入公共样式*/
 
 .login {
-  width: 100%;
-  height: 100%;
   color: #FF6463;
   flex: 1;
   background: #FFE7E7;
   flex-direction: column;
   font-size: 0.24rem;
-  display: flex;
   .submit-btn {
     width: 100%;
     height: 0.88rem;

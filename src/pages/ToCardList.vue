@@ -1,8 +1,8 @@
 <template>
   <div class="to-card_list flex-box">
     <div class="tabber">
-      <div class="tabber-item" @click="handleSwitch(1)" :class="{active: currentTabIndex === 1}">未读</div>
-      <div class="tabber-item" @click="handleSwitch(2)" :class="{active: currentTabIndex === 2}">已读</div>
+      <div class="tabber-item" @click.stop="handleSwitch(1)" :class="{active: currentTabIndex === 1}">未读</div>
+      <div class="tabber-item" @click.stop="handleSwitch(2)" :class="{active: currentTabIndex === 2}">已读</div>
     </div>
     <div class="list">
       <div class="list-item" v-for="item in list" v-if="currentTabIndex === 1">
@@ -23,7 +23,6 @@
         <div class="time">
           2018.07.12
         </div>
-        
       </div>
       
     </div>
@@ -67,9 +66,13 @@ export default {
     font-size: .32rem;
     justify-content: space-around;
     padding: .18rem 0 .28rem 0;
-    position: fixed;
+    // position: fixed;
     width: 100%;
     z-index: 999;
+    .tabber-item {
+      background: #ffffff;
+      flex: 1;
+    }
     &-item {
       color: #333333;
       &.active {
@@ -103,13 +106,14 @@ export default {
       }
       &.item-read {
         height: 4.26rem;
-        display: flex;
         justify-content: center;
         .from {
           color: #7D8169;
           font-size: .27rem;
           position: absolute;
           top: 1.35rem;
+          width: 100%;
+          text-align: center;
         }
       }
     }

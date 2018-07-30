@@ -1,5 +1,5 @@
 <template>
-  <div class="giver">
+  <div class="giver flex-box">
     <div class="layout-top">
     </div>
     <div class="flex-content">
@@ -61,7 +61,6 @@ export default {
 @import '../assets/css/layout.scss'; /*引入公共样式*/
 .giver {
     width: 100%;
-    height: 100%;
     color: #FF6463;
     flex: 1;
     background: #FFE7E7;

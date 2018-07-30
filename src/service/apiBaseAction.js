@@ -22,8 +22,13 @@ class ApiBaseAction {
         })
         this.fly.interceptors.response.use(
             function (response, promise) {
+                console.log('------interceptors------:', response)
                 if( response.status === 200 ){
-                    return promise.resolve(response.data)
+                    if(response.data.status === 0) {
+                      return promise.resolve(response.data)
+                    } else {
+                      return promise.reject(response.data)
+                    }
                 }else{
                     return promise.reject(response.data)
                 }
