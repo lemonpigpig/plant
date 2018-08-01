@@ -51,7 +51,7 @@ export default {
       if (type === 1) {
         this.$router.push('/add')
       } else if (type === 2) {
-
+        this.$router.push('/list')
       }
     }
   },

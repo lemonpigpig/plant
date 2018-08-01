@@ -1,7 +1,7 @@
 <template>
   <div class="card-list flex-box">
     <div class="card-list_content">
-      <div class="content-item" v-for="item in list">
+      <div class="content-item" v-for="(item, index) in list" @click="handlePreview(item)" :key="index">
         <div class="content-title">
           To：{{item.to}}
         </div>
@@ -34,22 +34,22 @@ export default {
    ...mapActions([
       'getCardList'
     ]),
+    handlePreview (item) {
+      localStorage.setItem('wishDetail', JSON.stringify(item))
+      this.$router.push(`/detail/0`)
+    }
   },
   mounted () {
     this.getCardList({
       giver: '18516555321',
       token: 9527,//localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
     }).then((res) => {
-      this.list = res.data.map(item => {
-        return {
-          status: item.readAt ? 1 : 0,
-          phone: item.recipient,
-          message: item.message,
-          createdAt: item.createdAt && item.createdAt.split('T')[0],
-          to: item.title
-        }
-      })
-      console.log('---res----:', res)
+      this.list = res.data.map(item => Object.assign({}, item, {
+        status: item.readAt ? 1 : 0,
+        phone: item.recipient,
+        createdAt: item.createdAt && item.createdAt.split('T')[0],
+        to: item.title,
+      }))
     })
   },
   watch: {

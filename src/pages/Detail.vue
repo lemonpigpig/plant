@@ -28,8 +28,8 @@
         </div>
       </div>
     </div>
-    <div class="btn edit-btn" v-if="type==='0'">
-      <span class="btn-zn_font">编辑</span>
+    <div class="btn edit-btn" v-if="type==='0'" @click="handleEdit">
+      <span class="btn-zn_font" >编辑</span>
       <span class="btn-en_font">re-edit</span>
     </div>
   </div>
@@ -66,7 +66,9 @@ export default {
     }
   },
   methods: {
-   
+    handleEdit () {
+      this.$router.push('/add?type=1')
+    }
   },
   mounted () {
     this.content = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')).message

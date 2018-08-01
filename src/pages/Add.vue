@@ -101,7 +101,7 @@
             Submit
           </span>
         </div>
-        <div class="submit-btn preview-btn">
+        <div class="submit-btn preview-btn" @click="handlePreiw">
           <span>
             预览
           </span>
@@ -129,7 +129,8 @@ export default {
       isShowTitlePlace: true,
       isShowFromPlace: true,
       isShowMsgPlace: true,
-      from: 1
+      from: 1,
+      type: 0
     }
   },
   methods: {
@@ -168,19 +169,46 @@ export default {
         title: this.title,
         message: this.msg,
         signature: this.signature,
-        from: '订花人'
+        from: this.signature
       }
       this.addCard(submitData).then(res => {
-        this.$Message('添加成功')
+        this.$message('添加成功')
         this.$router.push('/list')
+        localStorage.removeItem('templateInfo')
         console.log('-----submitData--:', res)
       })
-      localStorage.removeItem('templateInfo')
+     
+    },
+    handleUpdate (detail) {
+      this.phone = detail.phone
+      this.title = detail.title
+      this.signature = detail.signature
+      this.msg = detail.message
+    },
+    handlePreiw () {
+      const wishDetail = {
+        from: this.signature,
+        message: this.msg,
+        phone: this.phone,
+        recipient: this.phone,
+        signature: this.signature,
+        title: this.title
+      }
+      localStorage.setItem('wishDetail', JSON.stringify(wishDetail))
+      this.$router.push('/detail/0')
     }
   },
   mounted () {
     // this.activeRadio = localStorage.getItem('activeRadio') ? localStorage.getItem('activeRadio') : 1
     this.msg = localStorage.getItem('templateInfo') && JSON.parse(localStorage.getItem('templateInfo')).content
+    this.type = this.$route.query.type
+    if (this.type === '1') {
+      // edit
+      const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
+      this.handleUpdate(wishDetail)
+
+    }
+    console.log('---type:----, this.$router.query.type', this.$route.query.type)
     console.log('----templateInfo-----:', localStorage.getItem('templateInfo'))
   },
   watch: {
