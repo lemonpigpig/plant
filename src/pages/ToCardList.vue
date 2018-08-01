@@ -1,54 +1,87 @@
 <template>
-  <div class="to-card_list flex-box">
+  <div class="to-card_list flex-box" style="height:100vh;">
     <div class="tabber">
       <div class="tabber-item" @click.stop="handleSwitch(1)" :class="{active: currentTabIndex === 1}">未读</div>
       <div class="tabber-item" @click.stop="handleSwitch(2)" :class="{active: currentTabIndex === 2}">已读</div>
     </div>
-    <div class="list">
-      <div class="list-item" v-for="item in list" v-if="currentTabIndex === 1">
+    <div v-if="currentTabIndex === 1" class="list">
+      <div class="list-item" v-for="item in list" @click="handlePreview(item)">
         <img src="../assets/images/card/envelop.png" alt="">
         <div class="heart">
           <img src="../assets/images/card/heart.png" alt="">
         </div>
         <div class="time">
-          2018.07.12
+          {{item.createdAt && item.createdAt.split('T')[0]}}
         </div>
       </div>
-      <div class="list-item item-read"  v-for="item in listRead" v-if="currentTabIndex === 2">
-        <div class="from">“from 小宝贝”</div>
+    </div>
+    <div v-if="currentTabIndex === 2" class="list">
+      <div>
+      <div class="list-item item-read"  v-for="item in listRead" @click="handlePreview(item)">
+        <div class="from">“from {{item.from}}”</div>
         <img src="../assets/images/card/envelop-read.png" alt="">
         <div class="heart">
           <img src="../assets/images/card/heart.png" alt="">
         </div>
         <div class="time">
-          2018.07.12
+          {{item.createdAt && item.createdAt.split('T')[0]}}
         </div>
       </div>
-      
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex"
+
+const statusMap = {
+  1: '已读贺卡',
+  0: '未读贺卡'
+}
 export default {
   data () {
     return {
-      list: [1, 2, 3, 4, 5],
+      list: [],
       listRead: [],
-      currentTabIndex: 1
+      currentTabIndex: 1,
+      testFont: '56px'
     }
   },
   methods: {
+    ...mapActions([
+      'getCardList'
+    ]),
+    handlePreview (item) {
+      console.log('----handlePreview---:', item)
+      localStorage.setItem('wishDetail', JSON.stringify(item))
+      this.$router.push(`/detail/1`)
+    },
     handleSwitch (type) {
       this.currentTabIndex = type
       if (type === 1) {
-        this.list = [1, 2, 3, 4, 5]
+        this.getList(0)
       } else if (type === 2) {
-        this.listRead = [1, 2]
+        this.getList(1)
       }
+    },
+    async getList (isRead) {
+      const {data} =  await this.getCardList({
+        recipient: localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).phone,
+        isRead: isRead,
+        token: 9527,//localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).code,
+      })
+      if (isRead === 0) {
+        this.list = data
+      } else if (isRead === 1) {
+        this.listRead = data
+      }
+
+      console.log('-----data-----:', data)
     }
   },
   mounted () {
+    this.getList(0)
   },
   watch: {
   
@@ -66,6 +99,7 @@ export default {
     font-size: .32rem;
     justify-content: space-around;
     padding: .18rem 0 .28rem 0;
+    box-sizing: border-box;
     // position: fixed;
     width: 100%;
     z-index: 999;
@@ -82,9 +116,14 @@ export default {
   }
   .list {
     display: flex;
-    margin-top: 1.2rem;
+    // padding-top: 1.2rem;
+    padding:0.2rem 0;
     align-items: center;
     flex-direction: column;
+    flex:1;
+    height: calc( 100vh - .8rem );
+    overflow-y: scroll;
+    box-sizing: border-box;
     .list-item {
       width: 6.86rem;
       height: 3.6rem;

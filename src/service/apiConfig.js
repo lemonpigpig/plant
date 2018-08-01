@@ -1,6 +1,7 @@
 
 export const isProduction = process.env.NODE_ENV === 'production';
 export const NODEAPI = isProduction ? 'https://api-plant.boqii.com' : 'http://api-plant-dev.boqii.com/api/v2';
+export const PLANTDOMAIN = isProduction ? 'http://api-plant-dev.boqii.com' : 'http://api-plant.boqii.com'
 // export const NODEAPI = isProduction ? 'http://172.16.58.186:3100/' : 'http://172.16.58.186:3100/';
 
 export const QINIU_SPACE = isProduction ? 'https://api.boqiicdn.com' : 'https://api-dev.boqiicdn.com';
@@ -23,7 +24,13 @@ export const qiniuUpload = { url: '/resources/qiniu_upload', method: 'post' };
 export const cardList = { url: '/greeting/cards', method: 'GET' }
 
 /**add card */
-export const addCard = { url: '/greeting/cards/:requestno', method: 'GET' }
+export const addCard = { url: '/greeting/cards', method: 'post' }
 
 /**标记电子贺卡为已读 */
 export const tagRead = { url: '/greeting/cards/:id/read', method: 'GET' }
+
+/**标记电子贺卡为已读 */
+export const categoryList = { url: '/greeting/categories', method: 'GET' }
+
+/**获取祝福语模版 */
+export const wishTemplateList = { url: '/greeting/wishes', method: 'GET' }

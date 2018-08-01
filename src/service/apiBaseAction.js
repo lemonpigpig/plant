@@ -1,7 +1,10 @@
+import Vue from 'vue';
 import store from '@/store';
 import Fly from 'flyio'
 import { generateUid } from '../utils'
+import Boqii from '@/components/index.js'
 
+// console.log('----test-----:', all.Message)
 class ApiBaseAction {
     constructor() {
         console.log('ApiBaseAction:')
@@ -22,11 +25,11 @@ class ApiBaseAction {
         })
         this.fly.interceptors.response.use(
             function (response, promise) {
-                console.log('------interceptors------:', response)
                 if( response.status === 200 ){
                     if(response.data.status === 0) {
                       return promise.resolve(response.data)
                     } else {
+                      console.log('------interceptors------:', response.data)
                       return promise.reject(response.data)
                     }
                 }else{
@@ -87,10 +90,9 @@ class ApiBaseAction {
               timeout: 10000, //超时设置为5s
               withCredentials: true
           }).then((data = {}) => {
-              console.log("data", data)
               resolve(data);
           }, err=>{
-              // alert('err')
+              Boqii.Message(`${err.message}`)
               reject(err);
           }).catch((e) => console.log("error===========", e))
       })

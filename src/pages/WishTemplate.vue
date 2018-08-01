@@ -5,8 +5,8 @@
         <div class="category-content" :style="{width: contentWidth}"
         ref="content">
           <div class="category-item" v-for="(item, index) in cates" :key="index" 
-          :class="{'active': index === currentTabIndex}" @click="handleSwitch(index)">
-            {{item.name}}
+          :class="{'active': index === currentTabIndex}" @click="handleSwitch(index, item)">
+            {{item.title}}
           </div>
           <div style="width:100%;height:40px"></div>
         </div>
@@ -14,67 +14,9 @@
     </div>
   
     <div class="template-list">
-      <div class="template-item">
-        愿生活里有热汤和甜食
-        <br/>
-        背包里有书本和远方。<br/>
-
-        愿一切困难都能云淡风轻<br/>
-
-        每身孤独都拥抱共鸣。<br/>
-
-        长夜里总有梦想发亮，秋收春耕。<br/>
-
-        人海中常有良友相伴，长乐未央。<br/>
-
-        所求皆如愿，所行化坦途，<br/>
-
-        多喜乐，长安宁。<br/>
+      <div class="template-item" v-for="(item, index) in templates" :key="index" @click="handleSelect(item)">
+        {{item.content}}
       </div>
-      <div class="template-item">
-        美丽玫瑰花，心愿内里藏。送给知音人，相知又相傍。今生只为你，誓言对你讲。花朵会枯萎，爱情不变样。愿你收下这份情，你我幸福长！
-      </div>
-      <div class="template-item">
-        愿生活里有热汤和甜食
-        <br/>
-        背包里有书本和远方。<br/>
-
-        愿一切困难都能云淡风轻<br/>
-
-        每身孤独都拥抱共鸣。<br/>
-
-        长夜里总有梦想发亮，秋收春耕。<br/>
-
-        人海中常有良友相伴，长乐未央。<br/>
-
-        所求皆如愿，所行化坦途，<br/>
-
-        多喜乐，长安宁。<br/>
-      </div>
-      <div class="template-item">
-        美丽玫瑰花，心愿内里藏。送给知音人，相知又相傍。今生只为你，誓言对你讲。花朵会枯萎，爱情不变样。愿你收下这份情，你我幸福长！
-      </div>
-        <div class="template-item">
-        愿生活里有热汤和甜食
-        <br/>
-        背包里有书本和远方。<br/>
-
-        愿一切困难都能云淡风轻<br/>
-
-        每身孤独都拥抱共鸣。<br/>
-
-        长夜里总有梦想发亮，秋收春耕。<br/>
-
-        人海中常有良友相伴，长乐未央。<br/>
-
-        所求皆如愿，所行化坦途，<br/>
-
-        多喜乐，长安宁。<br/>
-      </div>
-      <div class="template-item">
-        美丽玫瑰花，心愿内里藏。送给知音人，相知又相傍。今生只为你，誓言对你讲。花朵会枯萎，爱情不变样。愿你收下这份情，你我幸福长！
-      </div>
-      
     </div>
     <div class="layout-flower">
       <img src="../assets/images/login/flower.png" alt="">
@@ -86,48 +28,67 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex"
+
 export default {
   data () {
     return {
       contentWidth: 'auto',
       currentTabIndex: 0,
-      cates: [{
-        id: 1,
-        name: '爱情'
-      }, {
-        id: 1,
-        name: '友情'
-      }, {
-        id: 1,
-        name: '亲情'
-      }, {
-        id: 1,
-        name: '其他'
-      }
-      ]
+      cates: [],
+      templates: []
     }
   },
   methods: {
-    handleSwitch (index) {
+    ...mapActions([
+      'getCategoryList',
+      'getCategoryTemplateList'
+    ]),
+    handleSelect (item) {
+      // localStorage.setItem('activeRadio', 2) 
+      this.$router.push('/add')
+      localStorage.setItem('templateInfo', JSON.stringify(item)) 
+      console.log('---item-----:', item)
+    },
+    handleSwitch (index, item) {
       this.currentTabIndex = index
+      this.getTemplateList(item.id)
+    },
+    initScroll () {
+      const arr = Array.from(this.$refs.content.children)
+      const children = arr.map((item, index) => {
+        if(index < arr.length-1) {
+          console.log('---item.clientWidth---:', item.clientWidth)
+          return item.clientWidth
+        } else {
+          return 0
+        }
+      })
+      console.log('children:', children)
+      let itemWidth = children.reduce((accumulator, current) => {
+        return accumulator + current
+      })
+      let marginWidth = children.length * 25;
+      this.contentWidth = `${itemWidth + marginWidth}px`
+      console.log('this.contentWidth:', this.contentWidth)
+    },
+    async getTemplateList (id) {
+      const { data } = await this.getCategoryTemplateList({
+        category: id
+      })
+      this.templates = data
+      console.log('-----data------:', data)
     }
   },
   mounted () {
-    const arr = Array.from(this.$refs.content.children)
-    const children = arr.map((item, index) => {
-      if(index < arr.length-1) {
-        return item.clientWidth
-      } else {
-        return 0
-      }
+    this.getCategoryList().then((res) => {
+      this.cates = res.data
+      this.$nextTick(() => {
+        this.initScroll()
+      })
+      let id = res.data[0] && res.data[0].id
+      this.getTemplateList(id)
     })
-    console.log('children:', children)
-    let itemWidth = children.reduce((accumulator, current) => {
-      return accumulator + current
-    })
-    let marginWidth = children.length * 25;
-    this.contentWidth = `${itemWidth + marginWidth}px`
-    console.log('this.contentWidth:', this.contentWidth)
    
   },
   watch: {
@@ -163,6 +124,7 @@ export default {
       // height: 50px;
       position: relative;
       .category-item {
+        // width: 90px;
         &.active {
           background: #FF7A7A;
           color: #FFFFFF;

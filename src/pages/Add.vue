@@ -57,17 +57,16 @@
           </div>
         </div>
       </div>
-      <div class="form-item" v-if="activeRadio===1">
+      <div class="form-item textarea-item">
         <div class="item-icon certificate-icon">
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
-        <div class="item-content" style="height: auto;min-height: 0.48rem;">
-          <div ref="sendContent" contenteditable="true" 
-          class="item-input item-textarea"
+        <div class="item-content item-content-textarea">
+          <textarea name="ddddd" id="" cols="30" rows="10" class="item-input item-textarea"
+          maxlength="200" 
           @focus="focus('isShowMsgPlace')"
           @blur="blur('isShowMsgPlace', 'msg')"
-          @input="handleInput"
-          v-html="msg"></div>
+          v-model="msg"></textarea>
           <div class="placeholder-help" v-if="isShowMsgPlace">
             <div>
               <div>留言*<span>(不超过200字)</span></div>
@@ -76,15 +75,15 @@
           </div>
         </div>
       </div>
-       <div class="form-item" style="background: #FFE7E7;">
+      <div class="form-item" style="background: #FFE7E7;">
         <div class="item-icon certificate-icon">
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
         <div class="item-content">
           <input type="text" class="item-input"
           @focus="focus('isShowFromPlace')"
-          @blur="blur('isShowFromPlace', 'from')"
-          v-model="from">
+          @blur="blur('isShowFromPlace', 'signature')"
+          v-model="signature">
           <div class="placeholder-help">
             <div v-if="isShowFromPlace">
               <div>落款<span>(不填写默认为匿名)</span></div>
@@ -94,7 +93,7 @@
         </div>
       </div>
       <div class="btn-box">
-        <div class="submit-btn">
+        <div class="submit-btn" @click="handleSubmit">
           <span>
             提交
           </span>
@@ -112,35 +111,43 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex"
+
 export default {
   data () {
     return {
-      activeRadio: 2,
+      activeRadio: 1,
       phone: '',
       title: '',
-      from: '',
+      signature: '',
       msg: '',
       isShowPhonePlace: true,
       isShowTitlePlace: true,
       isShowFromPlace: true,
-      isShowMsgPlace: true
+      isShowMsgPlace: true,
+      from: 1
     }
   },
   methods: {
+    ...mapActions([
+      'addCard'
+    ]),
     handleRadio (type) {
       this.activeRadio = type
+      if (type === 2) {
+        this.$router.push('/wishTemplate')
+      }
     },
     focus (type) {
-      console.log('focus:', focus)
+      console.log('focus:', type)
       this.$set(this, type, false)
     },
     blur (type, value) {
-      if (!this[value] && type !== 'isShowMsgPlace') {
+      if (!this[value]) {
         console.log("type:", type, this[value])
         this.$set(this, type, true)
       }
@@ -152,9 +159,29 @@ export default {
       } else {
         this.isShowMsgPlace = false
       }
+    },
+    handleSubmit () {
+      const submitData = {
+        giver: localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).phone,
+        recipient: this.phone,
+        token: 9527,//localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
+        title: this.title,
+        message: this.msg,
+        signature: this.signature,
+        from: '订花人'
+      }
+      this.addCard(submitData).then(res => {
+        this.$Message('添加成功')
+        this.$router.push('/list')
+        console.log('-----submitData--:', res)
+      })
+      localStorage.removeItem('templateInfo')
     }
   },
   mounted () {
+    // this.activeRadio = localStorage.getItem('activeRadio') ? localStorage.getItem('activeRadio') : 1
+    this.msg = localStorage.getItem('templateInfo') && JSON.parse(localStorage.getItem('templateInfo')).content
+    console.log('----templateInfo-----:', localStorage.getItem('templateInfo'))
   },
   watch: {
     phone (newVal, oldVal) {
@@ -172,13 +199,14 @@ export default {
       }
     },
     msg (newVal, oldVal) {
+      console.log('-----msg--:', newVal)
       if (!newVal) {
         this.isShowMsgPlace = true
       } else {
         this.isShowMsgPlace = false
       }
     },
-    from (newVal, oldVal) {
+    signature (newVal, oldVal) {
       if (!newVal) {
         this.isShowFromPlace = true
       } else {
@@ -198,16 +226,33 @@ export default {
       top: 0.6rem;
     .form-item {
       margin-top: 0.64rem;
+      &.textarea-item {
+        // align-items: flex-start;
+        &:after {
+          bottom: 0
+        }
+      }
       &:first-child {
         margin-top: 0;
       }
       .item-content {
         background: transparent;
+        &.item-content-textarea {
+          height: auto;
+          .placeholder-help {
+            position: absolute;
+            top: 18px;
+          }
+        }
         .item-textarea {
-          width: 5.32rem;
-          min-height: 0.48rem;
+          // width: 5.32rem;
+          // min-height: 0.48rem;
+          // max-height: 1.68rem;
+          height: 1rem;
           border: none;
           outline: none;
+          position: static;
+          // height: 200px;
         }
       }
     }

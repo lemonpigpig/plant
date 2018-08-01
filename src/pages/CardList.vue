@@ -3,16 +3,18 @@
     <div class="card-list_content">
       <div class="content-item" v-for="item in list">
         <div class="content-title">
-          To：小宝贝
+          To：{{item.to}}
         </div>
         <div class="content-short">
-          关于你，我有太多东西关于你。清醒的时候放不下矜持，不敢说我喜欢你，只有在某个夜晚...
+          {{item.message}}
         </div>
         <div class="time">
-          2018.07.12
+          {{item.time}}
         </div>
-        <div class="status-icon read">
-          收花人已读
+        <div class="status-icon" :class="[item.status === 1 ? 'read' : 'not-read']">
+          {{
+            item.status === 1 ? '收花人已读' : '收花人未读'
+          }}
         </div>
       </div>
     </div>
@@ -20,16 +22,35 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex"
+
 export default {
   data () {
     return {
-      list: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      list: []
     }
   },
   methods: {
-   
+   ...mapActions([
+      'getCardList'
+    ]),
   },
   mounted () {
+    this.getCardList({
+      giver: '18516555321',
+      token: 9527,//localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
+    }).then((res) => {
+      this.list = res.data.map(item => {
+        return {
+          status: item.readAt ? 1 : 0,
+          phone: item.recipient,
+          message: item.message,
+          createdAt: item.createdAt && item.createdAt.split('T')[0],
+          to: item.title
+        }
+      })
+      console.log('---res----:', res)
+    })
   },
   watch: {
   
@@ -62,6 +83,8 @@ export default {
     .content-short {
       margin-top: .24rem;
       line-height: .44rem;
+      height: .8rem;
+      overflow: hidden;
     }
     .time {
       text-align: right;

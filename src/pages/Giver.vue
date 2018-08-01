@@ -8,7 +8,7 @@
     </div>
     <div class="giver-content">
       <div class="giver-box">
-        <div class="add-card_btn add-card">
+        <div class="add-card_btn add-card" @click="handleJump(1)">
           <span class="chinese">
             已购买鲜花，填写电子贺卡
           </span>
@@ -16,7 +16,7 @@
             Have bought flowers and filled in e-cards
           </span>
         </div>
-        <div class="add-card_btn edit-card">
+        <div class="add-card_btn edit-card" @click="handleJump(2)">
           <span class="chinese">
             修改已有电子贺卡
           </span>
@@ -47,7 +47,13 @@ export default {
     Ercode
   },
   methods: {
-   
+    handleJump (type) {
+      if (type === 1) {
+        this.$router.push('/add')
+      } else if (type === 2) {
+
+      }
+    }
   },
   mounted () {
   },

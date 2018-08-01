@@ -3,16 +3,21 @@
 import Vue from 'vue'
 import App from './App'
 import store from '@/store'
-import ui from '@/components/ui'
-import Cookies from  'js-cookie'
-console.log('--------Cookies-------:', Cookies.get('captcha'))
 
-for (let i=0; i<Object.keys(ui).length; i++) {
-  let componentName = Object.keys(ui)[i]
-  // console.log('----componentName, ui[componentName]---:', componentName, ui[componentName])
-  Vue.component(componentName, ui[componentName])
-}
+import components from '@/components'
+Vue.use(components)
+console.log('-----components----:', components)
+// const install = function(Vue, opts = {}) {
+//   components.map(component => {
+//     Vue.component(component.name, component);
+//   })
 
+//   for (let i=0; i<Object.keys(ui).length; i++) {
+//     let componentName = Object.keys(ui)[i]
+//     Vue.component(componentName, ui[componentName])
+//   }
+//   Vue.prototype.$message = Message
+// }
 // Vue.com
 import router from './router'
 

@@ -40,7 +40,7 @@ export default new Router({
       component: WishTemplate
     },
     {
-      path: '/detail',
+      path: '/detail/:type',
       name: 'Detail',
       component: Detail
     },

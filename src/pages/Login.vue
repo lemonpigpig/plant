@@ -1,6 +1,5 @@
 <template>
   <div class="login flex-box">
-    <Toast ref="toast"/>
     <div class="layout-top">
     </div>
     <div class="flex-content">
@@ -83,7 +82,12 @@
 <script>
 import Ercode from '@/components/Ercode.vue'
 import { mapActions, mapGetters } from "vuex"
+import { PLANTDOMAIN } from '@/service/apiConfig'
 
+const typeMap = {
+  1: '收花人',
+  0: '订花人'
+}
 export default {
   data () {
     return {
@@ -94,14 +98,15 @@ export default {
       isShowPhonePlace: true,
       isShowCaptchaPlace: true,
       isShowCertificatePlace: true,
-      url: 'http://api-plant-dev.boqii.com/extern/captchas?width=110&height=40&length=4'
+      url: `${PLANTDOMAIN}/extern/captchas?width=110&height=40&length=4`,
+      type: null
     }
   },
   components: {
     Ercode
   },
   methods: {
-     ...mapActions([
+    ...mapActions([
       'login',
       'sendCode',
       'checkCode'
@@ -115,26 +120,45 @@ export default {
         this.$set(this, type, true)
       }
     },
+    storeCode (code) {
+      localStorage.setItem('code', code)
+    },
+    storeLoginInfo (obj, type) {
+      if (type === 1) {
+        obj && localStorage.setItem('giverInfo', JSON.stringify(obj))
+      } else if (type === 2) {
+        obj && localStorage.setItem('recieveInfo', JSON.stringify(obj))
+      }
+    },
     async userLogin () {
-      // this.$refs['toast'].show({
-      //   title: '请输入手机号码'
-      // })
-      // let { status } = await this.checkCode({
-      //   mobile: this.phone,
-      //   type: 6,
-      //   token: this.certificate
-      // })
-      // console.log('------status-----:', status)
-      // if (status === 0) {
-      //   await this.login({
-      //     username: this.phone,
-      //     token: this.certificate
-      //   })
-      // }
-      await this.login({
-        username: this.phone,
-        token: this.certificate
-      })
+      debugger
+      if (this.type === '0') {
+        await this.login({
+          username: this.phone,
+          token: this.certificate,
+          type: 6
+        }).then((res) => {
+          console.log(res)
+          this.storeLoginInfo({
+            code: this.certificate,
+            phone: this.phone
+          }, 1)
+          this.$router.push('/giver')
+        })
+      } else if (this.type === '1') {
+        let { status } = await this.checkCode({
+          mobile: this.phone,
+          type: 6,
+          token: this.certificate
+        })
+        if (status === 0) {
+          this.storeLoginInfo({
+            code: this.certificate,
+            phone: this.phone
+          }, 2)
+          this.$router.push('/toList')
+        }
+      }
     },
     sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
@@ -152,10 +176,11 @@ export default {
       }, (err) => {
         console.log('------err-----:', err)
       })
-    }
+    },
   },
   mounted () {
-    console.log('from id:', this.$route.params)
+    this.type = this.$route.params.id
+    console.log('from id:', typeof this.type, this.type)
   },
   watch: {
     phone (newVal, oldVal) {
