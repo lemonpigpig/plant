@@ -20,7 +20,7 @@
         <img src="../assets/images/card/lang-line.png" alt="">
       </div>
       <div class="layout-time">
-        2018.7.12
+        {{currentDate}}
       </div>
       <div class="detail-content">
         <div v-for="(item, index) in rowsArr" class="content-item">
@@ -32,9 +32,12 @@
 </template>
 
 <script>
+import { tool } from '@/utils'
+
 export default {
   data () {
     return {
+      currentDate: null,
       content: '收到这束花，说明您身边的人在关心您祝福您。这一束鲜花，蕴含着设计师的创意，花艺师的努力和配送员的辛勤，希望您能喜欢。今后的岁月里，希望能继续得到您的支持，我们将继续为您提供真诚的服务。愿您天天开心，向您表示衷心的感谢和美好的祝福！'
     }
   },
@@ -59,6 +62,7 @@ export default {
    
   },
   mounted () {
+    this.currentDate = tool.getNowFormatDate()
   },
   watch: {
   

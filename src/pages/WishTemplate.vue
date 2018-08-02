@@ -45,10 +45,12 @@ export default {
       'getCategoryTemplateList'
     ]),
     handleSelect (item) {
-      // localStorage.setItem('activeRadio', 2) 
+      // sessionStorage.setItem('templateInfo', JSON.stringify(item))
+      const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
+      wishDetail.message = item.content
+      localStorage.setItem('wishDetail', JSON.stringify(wishDetail))
       this.$router.push('/add')
-      localStorage.setItem('templateInfo', JSON.stringify(item)) 
-      console.log('---item-----:', item)
+      console.log('---update wishDetail-----:', wishDetail)
     },
     handleSwitch (index, item) {
       this.currentTabIndex = index
@@ -58,7 +60,6 @@ export default {
       const arr = Array.from(this.$refs.content.children)
       const children = arr.map((item, index) => {
         if(index < arr.length-1) {
-          console.log('---item.clientWidth---:', item.clientWidth)
           return item.clientWidth
         } else {
           return 0
@@ -70,7 +71,6 @@ export default {
       })
       let marginWidth = children.length * 25;
       this.contentWidth = `${itemWidth + marginWidth}px`
-      console.log('this.contentWidth:', this.contentWidth)
     },
     async getTemplateList (id) {
       const { data } = await this.getCategoryTemplateList({

@@ -116,6 +116,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex"
+import Cookie from 'js-cookie'
 
 export default {
   data () {
@@ -140,6 +141,7 @@ export default {
     handleRadio (type) {
       this.activeRadio = type
       if (type === 2) {
+        this.storeTempDeatil()
         this.$router.push('/wishTemplate')
       }
     },
@@ -163,19 +165,20 @@ export default {
     },
     handleSubmit () {
       const submitData = {
-        giver: localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).phone,
+        giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
         recipient: this.phone,
-        token: 9527,//localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
+        token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code,
         title: this.title,
         message: this.msg,
         signature: this.signature,
         from: this.signature
       }
+      console.log('------submitData----:', submitData)
       this.addCard(submitData).then(res => {
         this.$message('添加成功')
-        this.$router.push('/list')
-        localStorage.removeItem('templateInfo')
-        console.log('-----submitData--:', res)
+        this.$router.push('/giver')
+        // sessionStorage.removeItem('templateInfo')
+        localStorage.removeItem('wishDetail')
       })
      
     },
@@ -185,7 +188,7 @@ export default {
       this.signature = detail.signature
       this.msg = detail.message
     },
-    handlePreiw () {
+    storeTempDeatil () {
       const wishDetail = {
         from: this.signature,
         message: this.msg,
@@ -195,21 +198,19 @@ export default {
         title: this.title
       }
       localStorage.setItem('wishDetail', JSON.stringify(wishDetail))
+    },
+    handlePreiw () {
+      this.storeTempDeatil()
       this.$router.push('/detail/0')
     }
   },
   mounted () {
-    // this.activeRadio = localStorage.getItem('activeRadio') ? localStorage.getItem('activeRadio') : 1
-    this.msg = localStorage.getItem('templateInfo') && JSON.parse(localStorage.getItem('templateInfo')).content
+    // this.msg = sessionStorage.getItem('templateInfo') && JSON.parse(sessionStorage.getItem('templateInfo')).content
     this.type = this.$route.query.type
-    if (this.type === '1') {
-      // edit
-      const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
-      this.handleUpdate(wishDetail)
-
-    }
+    const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
+    wishDetail && this.handleUpdate(wishDetail)
     console.log('---type:----, this.$router.query.type', this.$route.query.type)
-    console.log('----templateInfo-----:', localStorage.getItem('templateInfo'))
+    // console.log('----templateInfo-----:', sessionStorage.getItem('templateInfo'))
   },
   watch: {
     phone (newVal, oldVal) {

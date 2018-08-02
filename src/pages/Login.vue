@@ -10,12 +10,12 @@
           <img src="../assets/images/login/phone-icon.png" alt="">
         </div>
         <div class="item-content">
-          <input type="text" class="item-input" v-model="phone"
+          <input type="number" class="item-input" v-model="phone"
           @focus="focus('isShowPhonePlace')"
           @blur="blur('isShowPhonePlace', 'phone')">
           <div class="placeholder-help">
             <template v-if="isShowPhonePlace">
-              <div>订花人手机号码</div>
+              <div>{{type === '0' ? '订花人' : '收花人'}}手机号码</div>
               <div class="eg-help">Sender's tel</div>
             </template>
           </div>
@@ -49,7 +49,7 @@
             <img src="../assets/images/login/certificate-icon.png" alt="">
           </div>
           <div class="item-content">
-            <input type="text" class="item-input" v-model="certificate"
+            <input type="number" class="item-input" v-model="certificate"
             @focus="focus('isShowCertificatePlace')"
             @blur="blur('isShowCertificatePlace', 'certificate')">
             <div class="placeholder-help">
@@ -89,6 +89,7 @@ import { mapActions, mapGetters } from "vuex"
 import { PLANTDOMAIN } from '@/service/apiConfig'
 import sendCode from '@/mixins/sendCode'
 import Cookie from 'js-cookie'
+import { rule, tool } from '@/utils'
 
 const typeMap = {
   1: '收花人',
@@ -120,7 +121,8 @@ export default {
     ...mapActions([
       'login',
       'sendCode',
-      'checkCode'
+      'checkCode',
+      'getCardList'
     ]),
     focus (type) {
       this.$set(this, type, false)
@@ -141,8 +143,27 @@ export default {
         // obj && localStorage.setItem('recieveInfo', JSON.stringify(obj))
       }
     },
+    check () {
+      if (!rule.checkPhone(this.phone)) {
+        this.$message('电话号码错误！')
+        return false
+      }
+      if (!this.captcha) {
+        this.$message('图像验证码错误！')
+        return false
+      }
+      if (!this.certificate) {
+        this.$message('验证码错误！')
+        return false
+      }
+      return true
+    },
     async userLogin () {
+      if (!this.check()) {
+        return
+      }
       if (this.type === '0') {
+        // 订花人
         await this.login({
           username: this.phone,
           token: this.certificate,
@@ -167,39 +188,40 @@ export default {
           token: this.certificate
         })
         if (status === 0) {
+          const {data} = await this.getCardList({
+            recipient: this.phone,
+            // isRead: 0, //未读贺卡
+            token: this.certificate
+          })
+          // 是否由登录态失效页面跳转而来
+          const { name } = this.$route.query
+          if (name) {
+            this.$router.push({name: name})
+          } else {
+            console.log('----cardlist----:', data)
+            if (data && data.length > 0) {
+              // 如果有贺卡
+              this.$router.push('/toList')
+            } else {
+              this.$router.push('/defaultCard')
+            }
+          }
+         
           this.storeLoginInfo({
             code: this.certificate,
             phone: this.phone
           }, 2)
-           const { name } = this.$route.query
-          if (name) {
-            this.$router.push({name: name})
-          } else {
-            this.$router.push('/toList')
-          }
+          
         }
       }
     },
     sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
-    },
-    // getCode () {
-    //   this.sendCode({
-    //     mobile: this.phone,
-    //     captcha: this.captcha,
-    //     type: 6,
-    //     params: {
-    //       requestno: 1,
-    //     }
-    //   }).then((res) => {
-    //     console.log('-----res-----:', res)
-    //   }, (err) => {
-    //     console.log('------err-----:', err)
-    //   })
-    // },
+    }
   },
   mixins: [sendCode],
   mounted () {
+    tool.clearAllStorage()
     this.type = this.$route.params.id
     console.log('name-------:', this.$route.query.name)
     console.log('from id:', typeof this.type, this.type)

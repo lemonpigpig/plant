@@ -81,6 +81,7 @@ class ApiBaseAction {
           }).then((data = {}) => {
               resolve(data);
           }, err=>{
+            // || err.status === 1
             if (err.status === 403) {
               const reciver = ['ToCardList']
               const { name } = router.currentRoute
