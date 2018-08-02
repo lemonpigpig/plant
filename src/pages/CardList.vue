@@ -23,6 +23,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex"
+import Cookie from 'js-cookie'
 
 export default {
   data () {
@@ -41,8 +42,10 @@ export default {
   },
   mounted () {
     this.getCardList({
-      giver: '18516555321',
-      token: 9527,//localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
+      giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
+      token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code,
+      // 9527,
+      //localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
     }).then((res) => {
       this.list = res.data.map(item => Object.assign({}, item, {
         status: item.readAt ? 1 : 0,

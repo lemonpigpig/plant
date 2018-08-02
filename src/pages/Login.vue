@@ -88,6 +88,7 @@ import Ercode from '@/components/Ercode.vue'
 import { mapActions, mapGetters } from "vuex"
 import { PLANTDOMAIN } from '@/service/apiConfig'
 import sendCode from '@/mixins/sendCode'
+import Cookie from 'js-cookie'
 
 const typeMap = {
   1: '收花人',
@@ -130,14 +131,14 @@ export default {
         this.$set(this, type, true)
       }
     },
-    storeCode (code) {
-      localStorage.setItem('code', code)
-    },
     storeLoginInfo (obj, type) {
       if (type === 1) {
-        obj && localStorage.setItem('giverInfo', JSON.stringify(obj))
+        // 设置过期时间为1d
+        obj && Cookie.set('giverInfo', JSON.stringify(obj), { expires: 1 })
+        // obj && localStorage.setItem('giverInfo', JSON.stringify(obj))
       } else if (type === 2) {
-        obj && localStorage.setItem('recieveInfo', JSON.stringify(obj))
+        obj && Cookie.set('recieveInfo', JSON.stringify(obj), { expires: 1 })
+        // obj && localStorage.setItem('recieveInfo', JSON.stringify(obj))
       }
     },
     async userLogin () {

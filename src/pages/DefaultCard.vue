@@ -5,7 +5,7 @@
         <img src="../assets/images/card/butterfly.png" alt="">
       </div>
       <div class="layout-title">
-        To：小宝贝
+        To：尊敬的顾客
       </div>
       <div class="layout-line_big">
         <img src="../assets/images/card/lang-line_big.png" alt="">
@@ -14,7 +14,7 @@
         <img src="../assets/images/card/butterfly-type2.png" alt="">
       </div>
       <div class="layout-from">
-        From：波奇四季花店
+        From：波奇四季鲜花店
       </div>
       <div class="layout-line">
         <img src="../assets/images/card/lang-line.png" alt="">
@@ -35,7 +35,7 @@
 export default {
   data () {
     return {
-      content: '关于你，我有太多东西关于你。清醒的时候放不下矜持，不敢说我喜欢你，只有在某个夜晚多愁善感又萦绕在心头，或是朋友聚会上的大醉，才敢借着情绪说，我喜欢你，喜欢了好久好久。希望你能够接受我，我一定会对你好的！！！重要的事情说三遍，对你好，对你好，对你好！此处最多显示两百字。'
+      content: '收到这束花，说明您身边的人在关心您祝福您。这一束鲜花，蕴含着设计师的创意，花艺师的努力和配送员的辛勤，希望您能喜欢。今后的岁月里，希望能继续得到您的支持，我们将继续为您提供真诚的服务。愿您天天开心，向您表示衷心的感谢和美好的祝福！'
     }
   },
   computed: {

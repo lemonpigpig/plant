@@ -32,12 +32,18 @@ export default new Router({
     {
       path: '/add',
       name: 'Add',
-      component: Add
+      component: Add,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/wishTemplate',
       name: 'WishTemplate',
-      component: WishTemplate
+      component: WishTemplate,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/detail/:type',
@@ -47,12 +53,18 @@ export default new Router({
     {
       path: '/list',
       name: 'CardList',
-      component: CardList
+      component: CardList,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/toList',
       name: 'ToCardList',
-      component: ToCardList
+      component: ToCardList,
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/defaultCard',

@@ -34,6 +34,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex"
+import Cookie from 'js-cookie'
 
 const statusMap = {
   1: '已读贺卡',
@@ -81,9 +82,12 @@ export default {
     },
     async getList (isRead) {
       const {data} =  await this.getCardList({
-        recipient: localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).phone,
+        recipient: Cookie.get('recieveInfo') && JSON.parse(Cookie.get('recieveInfo')).phone,
+        // localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).phone,
         isRead: isRead,
-        token: 9527,//localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).code,
+        token: Cookie.get('recieveInfo') && JSON.parse(Cookie.get('recieveInfo')).code
+        // 9527,
+        //localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).code,
       })
       if (isRead === 0) {
         this.list = data

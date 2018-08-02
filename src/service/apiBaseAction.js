@@ -3,6 +3,7 @@ import store from '@/store';
 import Fly from 'flyio'
 import Boqii from '@/components/index.js'
 import router from '@/router/index.js'
+import Cookie from 'js-cookie'
 
 // console.log('----test-----:', all.Message)
 class ApiBaseAction {
@@ -85,9 +86,11 @@ class ApiBaseAction {
               const { name } = router.currentRoute
               if (reciver.includes(name)) {
                 //收花人
+                Cookie.remove('recieveInfo')
                 router.push( `/login/1?name=${name}`)
               } else {
                 //订花人
+                Cookie.remove('giverInfo')
                 router.push(`/login/0?name=${name}`)
               }
               console.log('err.status--------:', name)
