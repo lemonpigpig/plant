@@ -6,19 +6,11 @@ import store from '@/store'
 
 import components from '@/components'
 Vue.use(components)
-console.log('-----components----:', components)
-// const install = function(Vue, opts = {}) {
-//   components.map(component => {
-//     Vue.component(component.name, component);
-//   })
 
-//   for (let i=0; i<Object.keys(ui).length; i++) {
-//     let componentName = Object.keys(ui)[i]
-//     Vue.component(componentName, ui[componentName])
-//   }
-//   Vue.prototype.$message = Message
-// }
-// Vue.com
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
+
+
 import router from './router'
 
 import '@/lib/font-size.js'

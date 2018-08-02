@@ -3,7 +3,7 @@
  * @desc card模块
  */
 import ApiNodeAction from '@/service/apiNodeAction';
-import {checkCode, cardList, addCard, categoryList, wishTemplateList } from '@/service/apiConfig';
+import {checkCode, cardList, addCard, categoryList, wishTemplateList, tagRead } from '@/service/apiConfig';
 
 // init state
 const state = {
@@ -63,7 +63,7 @@ const actions = {
       })
     },
     /**
-     * @desc 新增电子贺卡
+     * @desc 电子卡标记为已读
      * @param
      * id: {string} 贺卡id
      * recipient: 必须，收花人手机号
@@ -75,7 +75,7 @@ const actions = {
       state
     }, params) {
       return new Promise((resolve, reject) => {
-        ApiNodeAction(addCard, params).then(data => {
+        ApiNodeAction(tagRead, params).then(data => {
             resolve(data);
         },err=>{
             reject(err);

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import store from '@/store';
 import Fly from 'flyio'
-import { generateUid } from '../utils'
 import Boqii from '@/components/index.js'
+import router from '@/router/index.js'
 
 // console.log('----test-----:', all.Message)
 class ApiBaseAction {
@@ -57,18 +57,6 @@ class ApiBaseAction {
     baseAction(apiConfig = {}, params = {}) {
         let self = this;
         self.fly.config.baseURL = apiConfig.baseHost || self.$baseUrl;
-        // let configSetting = {
-        //     headers: Object.assign(self.$defaultHeaders(params), apiConfig.headers),
-        //     method: apiConfig.method,
-        //     timeout: 5000 //超时设置为5s
-        // };
-        // let requestPromise = self.fly.request(apiConfig.url, params, configSetting);
-        // self.addQueue({
-        //     id: generateUid(apiConfig.url),
-        //     reqPromise: requestPromise,
-        //     apiConfig: apiConfig,
-        //     params: params,
-        // })
         let pathParams = params.params;
         let apiUrl = apiConfig.url;
         // 参数传递如：/xxxx/:id?query=xxx 让前端不必要考虑参数的传递形式
@@ -92,11 +80,25 @@ class ApiBaseAction {
           }).then((data = {}) => {
               resolve(data);
           }, err=>{
+            if (err.status === 403) {
+              const reciver = ['ToCardList']
+              const { name } = router.currentRoute
+              if (reciver.includes(name)) {
+                //收花人
+                router.push( `/login/1?name=${name}`)
+              } else {
+                //订花人
+                router.push(`/login/0?name=${name}`)
+              }
+              console.log('err.status--------:', name)
+            } else {
               Boqii.Message(`${err.message}`)
-              reject(err);
+            }
+            reject(err);
           }).catch((e) => console.log("error===========", e))
       })
     }
 }
+
 
 export default ApiBaseAction;

@@ -1,7 +1,8 @@
 import { NODEAPI } from './apiConfig';
 import ApiBaseAction from './apiBaseAction';
 import BoqiiAuth from 'boqii-node-auth';
-import {delEmpty} from '../utils';
+import { tool } from '../utils';
+
 class ApiNodeAction extends ApiBaseAction {
 	constructor() {
 		console.log('ApiPHPAction constructor')
@@ -11,7 +12,7 @@ class ApiNodeAction extends ApiBaseAction {
 		this.$defaultHeaders = (params) => {
 			return {
 				'Authorization':  '',
-				'Sign': this.auth.signParams(delEmpty(params)),
+				'Sign': this.auth.signParams(tool.delEmpty(params)),
         'Vary-Client': 'web'
 			}
 		};

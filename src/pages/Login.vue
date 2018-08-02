@@ -57,7 +57,11 @@
                 <div>手机验证码</div>
                 <div class="eg-help">Verification code</div>
               </div>
-              <div class="send-btn" @click="getCode">发送验证码</div>
+              <div v-if="show_send">
+                <div class="send-btn" @click="getCode" v-if="code_sending" >发送验证码</div>
+                <div class="send-btn code-count-down" v-else >{{ countdown }}s</div>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -83,6 +87,7 @@
 import Ercode from '@/components/Ercode.vue'
 import { mapActions, mapGetters } from "vuex"
 import { PLANTDOMAIN } from '@/service/apiConfig'
+import sendCode from '@/mixins/sendCode'
 
 const typeMap = {
   1: '收花人',
@@ -99,7 +104,12 @@ export default {
       isShowCaptchaPlace: true,
       isShowCertificatePlace: true,
       url: `${PLANTDOMAIN}/extern/captchas?width=110&height=40&length=4`,
-      type: null
+      type: null,
+    }
+  },
+  computed: {
+    show_send () {
+      return this.captcha && this.phone
     }
   },
   components: {
@@ -131,7 +141,6 @@ export default {
       }
     },
     async userLogin () {
-      debugger
       if (this.type === '0') {
         await this.login({
           username: this.phone,
@@ -143,7 +152,12 @@ export default {
             code: this.certificate,
             phone: this.phone
           }, 1)
-          this.$router.push('/giver')
+          const { name } = this.$route.query
+          if (name) {
+            this.$router.push({name: name})
+          } else {
+            this.$router.push('/giver')
+          }
         })
       } else if (this.type === '1') {
         let { status } = await this.checkCode({
@@ -156,30 +170,37 @@ export default {
             code: this.certificate,
             phone: this.phone
           }, 2)
-          this.$router.push('/toList')
+           const { name } = this.$route.query
+          if (name) {
+            this.$router.push({name: name})
+          } else {
+            this.$router.push('/toList')
+          }
         }
       }
     },
     sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
     },
-    getCode () {
-      this.sendCode({
-        mobile: this.phone,
-        captcha: this.captcha,
-        type: 6,
-        params: {
-          requestno: 1,
-        }
-      }).then((res) => {
-        console.log('-----res-----:', res)
-      }, (err) => {
-        console.log('------err-----:', err)
-      })
-    },
+    // getCode () {
+    //   this.sendCode({
+    //     mobile: this.phone,
+    //     captcha: this.captcha,
+    //     type: 6,
+    //     params: {
+    //       requestno: 1,
+    //     }
+    //   }).then((res) => {
+    //     console.log('-----res-----:', res)
+    //   }, (err) => {
+    //     console.log('------err-----:', err)
+    //   })
+    // },
   },
+  mixins: [sendCode],
   mounted () {
     this.type = this.$route.params.id
+    console.log('name-------:', this.$route.query.name)
     console.log('from id:', typeof this.type, this.type)
   },
   watch: {

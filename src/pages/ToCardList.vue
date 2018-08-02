@@ -4,8 +4,8 @@
       <div class="tabber-item" @click.stop="handleSwitch(1)" :class="{active: currentTabIndex === 1}">未读</div>
       <div class="tabber-item" @click.stop="handleSwitch(2)" :class="{active: currentTabIndex === 2}">已读</div>
     </div>
-    <div v-if="currentTabIndex === 1" class="list">
-      <div class="list-item" v-for="item in list" @click="handlePreview(item)">
+    <div v-if="currentTabIndex === 1" class="list" v-infinite-scroll="loadMore">
+      <div class="list-item" v-for="item in list" @click="handlePreview(item, 0)">
         <img src="../assets/images/card/envelop.png" alt="">
         <div class="heart">
           <img src="../assets/images/card/heart.png" alt="">
@@ -15,9 +15,9 @@
         </div>
       </div>
     </div>
-    <div v-if="currentTabIndex === 2" class="list">
+    <div v-if="currentTabIndex === 2" class="list" v-infinite-scroll="loadMore">
       <div>
-      <div class="list-item item-read"  v-for="item in listRead" @click="handlePreview(item)">
+      <div class="list-item item-read"  v-for="item in listRead" @click="handlePreview(item, 1)">
         <div class="from">“from {{item.from}}”</div>
         <img src="../assets/images/card/envelop-read.png" alt="">
         <div class="heart">
@@ -50,10 +50,24 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getCardList'
+      'getCardList',
+      'tagRead'
     ]),
-    handlePreview (item) {
-      console.log('----handlePreview---:', item)
+    loadMore () {
+      console.log('------loadMore------:')
+    },
+    handlePreview (item, type) {
+      if (type === 0) {
+        this.tagRead({
+          params: {
+            id: item.id,
+          },
+          recipient: item.recipient,
+          token: 9527,//localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).code,
+        }).then((res) => {
+          console.log('给收花人发送短信s-----res:', res)
+        })
+      }
       localStorage.setItem('wishDetail', JSON.stringify(item))
       this.$router.push(`/detail/1`)
     },

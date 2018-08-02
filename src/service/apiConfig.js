@@ -27,7 +27,7 @@ export const cardList = { url: '/greeting/cards', method: 'GET' }
 export const addCard = { url: '/greeting/cards', method: 'post' }
 
 /**标记电子贺卡为已读 */
-export const tagRead = { url: '/greeting/cards/:id/read', method: 'GET' }
+export const tagRead = { url: '/greeting/cards/:id/read', method: 'post' }
 
 /**标记电子贺卡为已读 */
 export const categoryList = { url: '/greeting/categories', method: 'GET' }
