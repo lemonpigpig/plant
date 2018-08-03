@@ -41,28 +41,34 @@
           </div>
         </div>
       </div>
-      <div class="form-radio">
-        <div class="form-radio_item custom-msg" @click="handleRadio(1)">
-          <div class="self-radio" :class="[activeRadio === 1 ? 'self-radio-radio_checked' : 'self-radio-checked_not']"></div>
-          <div class="help">
-            <span>自定义留言</span>
-            <span>customize</span>
-          </div>
-        </div>
-        <div class="form-radio_item template-msg" @click="handleRadio(2)">
-          <div class="self-radio" :class="[activeRadio === 2 ? 'self-radio-radio_checked' : 'self-radio-checked_not']"></div>
-          <div class="help">
-            <span>使用留言模版</span>
-            <span>select template</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-item textarea-item">
+      <div class="form-item form-radio">
         <div class="item-icon certificate-icon">
           <img src="../assets/images/login/certificate-icon.png" alt="">
         </div>
+        <div class="msg-type">
+          <div class="form-radio_item custom-msg">
+            <!-- <div class="self-radio" :class="[activeRadio === 1 ? 'self-radio-radio_checked' : 'self-radio-checked_not']"></div> -->
+            <div class="help">
+              <span>自定义留言</span>
+              <span>customize</span>
+            </div>
+          </div>
+          <div class="form-radio_item template-msg" @click="handleRadio(2)">
+            <!-- <div class="self-radio" :class="[activeRadio === 2 ? 'self-radio-radio_checked' : 'self-radio-checked_not']"></div> -->
+            <div class="help select-template">
+              <span>选择模版</span>
+              <span>select template</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="form-item textarea-item">
+        <div class="item-icon certificate-icon">
+          <!-- <img src="../assets/images/login/certificate-icon.png" alt=""> -->
+        </div>
         <div class="item-content item-content-textarea">
-          <textarea name="ddddd" id="" cols="30" rows="10" class="item-input item-textarea"
+          <textarea name="ddddd" id="" cols="30" rows="3" class="item-input item-textarea"
           maxlength="200" 
           @focus="focus('isShowMsgPlace')"
           @blur="blur('isShowMsgPlace', 'msg')"
@@ -77,7 +83,7 @@
       </div>
       <div class="form-item" style="background: #FFE7E7;">
         <div class="item-icon certificate-icon">
-          <img src="../assets/images/login/certificate-icon.png" alt="">
+          <img src="../assets/images/add/signature.png" alt="">
         </div>
         <div class="item-content">
           <input type="text" class="item-input"
@@ -121,7 +127,7 @@ import Cookie from 'js-cookie'
 export default {
   data () {
     return {
-      activeRadio: 1,
+      // activeRadio: 1,
       phone: '',
       title: '',
       signature: '',
@@ -139,7 +145,7 @@ export default {
       'addCard'
     ]),
     handleRadio (type) {
-      this.activeRadio = type
+      // this.activeRadio = type
       if (type === 2) {
         this.storeTempDeatil()
         this.$router.push('/wishTemplate')
@@ -256,6 +262,7 @@ export default {
     .form-item {
       margin-top: 0.64rem;
       &.textarea-item {
+        margin-top: 0.3rem;
         // align-items: flex-start;
         &:after {
           bottom: 0
@@ -270,18 +277,16 @@ export default {
           height: auto;
           .placeholder-help {
             position: absolute;
-            top: 18px;
+            top:12px;
           }
         }
         .item-textarea {
-          // width: 5.32rem;
-          // min-height: 0.48rem;
-          // max-height: 1.68rem;
-          height: 1rem;
+          // height: 1rem;
+          height: auto;
           border: none;
           outline: none;
-          position: static;
-          // height: 200px;
+          position: relative;
+          z-index: 999;
         }
       }
     }
@@ -297,6 +302,26 @@ export default {
     .form-radio {
       margin-top: 0.64rem;
       display: flex;
+      align-items: flex-start;
+      &:after {
+        height: 0;
+      }
+      .select-template {
+        width: 1.7rem;
+        height: .54rem;
+        border: 1px solid #ffa0a0;
+        border-radius: .64rem;
+        display: flex;
+        &>span {
+          transform: scale(.7);
+        }
+      }
+      .msg-type {
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+      }
       .form-radio_item {
         display: flex;
         align-items: flex-start;
@@ -306,7 +331,6 @@ export default {
         .help {
           display: flex;
           flex-direction: column;
-          margin-left: 0.22rem;
         }
       }
     }
