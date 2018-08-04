@@ -144,7 +144,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      'addCard',
       'editCard'
     ]),
     handleRadio (type) {
@@ -201,25 +200,17 @@ export default {
       if (!this.check(submitData)) {
         return false
       }
-      if (type === '0') {
-        const id = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')) && JSON.parse(localStorage.getItem('wishDetail')).id
-        this.editCard({
-          ...submitData,
-          params: {
-            id
-          }
-        }).then((res) => {
-          this.$message('编辑成功')
-          this.$router.push('/giver')
-          localStorage.removeItem('wishDetail')
-        })
-      } else {
-        this.addCard(submitData).then(res => {
-          this.$message('新增成功')
-          this.$router.push('/giver')
-          localStorage.removeItem('wishDetail')
-        })
-      }
+      const id = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')) && JSON.parse(localStorage.getItem('wishDetail')).id
+      this.editCard({
+        ...submitData,
+        params: {
+          id
+        }
+      }).then((res) => {
+        this.$message('编辑成功')
+        this.$router.push('/giver')
+        localStorage.removeItem('wishDetail')
+      })
     },
     handleUpdate (detail) {
       this.phone = detail.phone
@@ -244,12 +235,8 @@ export default {
     }
   },
   mounted () {
-    // this.msg = sessionStorage.getItem('templateInfo') && JSON.parse(sessionStorage.getItem('templateInfo')).content
-    this.type = this.$route.query.type
     const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
     wishDetail && this.handleUpdate(wishDetail)
-    console.log('---type:----, this.$router.query.type', this.$route.query.type)
-    // console.log('----templateInfo-----:', sessionStorage.getItem('templateInfo'))
   },
   watch: {
     phone (newVal, oldVal) {

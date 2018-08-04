@@ -3,7 +3,7 @@
  * @desc card模块
  */
 import ApiNodeAction from '@/service/apiNodeAction';
-import {checkCode, cardList, addCard, categoryList, wishTemplateList, tagRead } from '@/service/apiConfig';
+import {checkCode, cardList, addCard, categoryList, wishTemplateList, tagRead, editCard } from '@/service/apiConfig';
 
 // init state
 const state = {
@@ -56,6 +56,29 @@ const actions = {
     }, params) {
       return new Promise((resolve, reject) => {
         ApiNodeAction(addCard, params).then(data => {
+            resolve(data);
+        },err=>{
+            reject(err);
+        })
+      })
+    },
+       /**
+     * @desc 编辑电子贺卡
+     * @param
+     * giver: 必须，订花人手机号
+     * recipient: 必须，收花人手机号
+     * token: {string} 验证码，必须
+     * title: {string} 必须 称呼
+     * message: {string} 必须 留言内容
+     * signature: {string} 必须 落款
+     */
+
+    editCard({
+      commit,
+      state
+    }, params) {
+      return new Promise((resolve, reject) => {
+        ApiNodeAction(editCard, params).then(data => {
             resolve(data);
         },err=>{
             reject(err);

@@ -8,10 +8,10 @@ class ApiNodeAction extends ApiBaseAction {
 		console.log('ApiPHPAction constructor')
 		super();
 		this.$baseUrl = NODEAPI;
-		this.auth = new BoqiiAuth();
+    this.auth = new BoqiiAuth();
 		this.$defaultHeaders = (params) => {
 			return {
-				'Authorization':  '',
+				'Authorization':  localStorage.getItem('Authorization'),
 				'Sign': this.auth.signParams(tool.delEmpty(params)),
         'Vary-Client': 'web'
 			}

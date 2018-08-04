@@ -18,7 +18,7 @@
     <div v-if="currentTabIndex === 2" class="list" v-infinite-scroll="loadMore">
       <div>
       <div class="list-item item-read"  v-for="item in listRead" @click="handlePreview(item, 1)">
-        <div class="from">“from {{item.from}}”</div>
+        <div class="from">“from {{item.signature ? item.signature : '匿名'}}”</div>
         <img src="../assets/images/card/envelop-read.png" alt="">
         <div class="heart">
           <img src="../assets/images/card/heart.png" alt="">
@@ -70,7 +70,7 @@ export default {
         })
       }
       localStorage.setItem('wishDetail', JSON.stringify(item))
-      this.$router.push(`/detail/1`)
+      this.$router.push(`/detail/1?tab=${this.currentTabIndex}`)
     },
     handleSwitch (type) {
       this.currentTabIndex = type
@@ -83,11 +83,8 @@ export default {
     async getList (isRead) {
       const {data} =  await this.getCardList({
         recipient: Cookie.get('recieveInfo') && JSON.parse(Cookie.get('recieveInfo')).phone,
-        // localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).phone,
         isRead: isRead,
         token: Cookie.get('recieveInfo') && JSON.parse(Cookie.get('recieveInfo')).code
-        // 9527,
-        //localStorage.getItem('recieveInfo') && JSON.parse(localStorage.getItem('recieveInfo')).code,
       })
       if (isRead === 0) {
         this.list = data
@@ -96,10 +93,14 @@ export default {
       }
 
       console.log('-----data-----:', data)
+    },
+    initTab (index) {
+      const tab = localStorage.getItem('tabCurrent')
+      this.handleSwitch(Number(tab) || 1)
     }
   },
   mounted () {
-    this.getList(0)
+    this.initTab()
   },
   watch: {
   

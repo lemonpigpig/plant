@@ -3,7 +3,7 @@
  * @desc 用户登录注册模块
  */
 import ApiNodeAction from '@/service/apiNodeAction';
-import { sendCode, login, checkCode, cardList, addCard } from '@/service/apiConfig';
+import { sendCode, login, checkCode, syncToken, checkReciever } from '@/service/apiConfig';
 
 // init state
 const state = {
@@ -73,6 +73,48 @@ const actions = {
         })
       })
     },
+    /**
+     * @desc 验证收花人
+     * @param 
+     * recipient: {string} 必须 收花人手机号码
+     * token: 必须，验证码
+     * 
+     */
+
+    checkReciever({
+      commit,
+      state
+    }, params) {
+      return new Promise((resolve, reject) => {
+        ApiNodeAction(checkReciever, params).then(data => {
+            resolve(data);
+        },err=>{
+            reject(err);
+        })
+      })
+    },
+    
+    /**
+     * @desc check 验证码是否有效
+     * @param 
+     * mobile: {string} 必填, 用户手机号码
+     * token: {string} 验证码，必须
+     * 
+     */
+
+    syncToken({
+      commit,
+      state
+    }, params) {
+      return new Promise((resolve, reject) => {
+        ApiNodeAction(syncToken, params).then(data => {
+            resolve(data);
+        },err=>{
+            reject(err);
+        })
+      })
+    },
+    
     /**
      * @desc node 图片上传模块
      */

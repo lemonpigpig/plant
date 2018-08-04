@@ -37,7 +37,7 @@ export default {
     ]),
     handlePreview (item) {
       localStorage.setItem('wishDetail', JSON.stringify(item))
-      this.$router.push(`/detail/0`)
+      this.$router.push(`/detail/0?status=${item.status}`)
     }
   },
   mounted () {

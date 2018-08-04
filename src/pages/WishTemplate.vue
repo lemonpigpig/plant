@@ -155,6 +155,7 @@ export default {
       line-height: 0.38rem;
       border-radius:0.2rem;
       margin-bottom: .2rem;
+      word-break: break-word;
     }
   }
   .layout-flower {

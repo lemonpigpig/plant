@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/pages/Login'
 import Giver from '@/pages/Giver'
 import Add from '@/pages/Add'
+import Edit from '@/pages/Edit'
 import WishTemplate from '@/pages/WishTemplate'
 import Detail from '@/pages/Detail'
 import CardList from '@/pages/CardList'
@@ -33,6 +34,14 @@ export default new Router({
       path: '/add',
       name: 'Add',
       component: Add,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/edit',
+      name: 'Edit',
+      component: Edit,
       meta: {
         requireAuth: true
       }

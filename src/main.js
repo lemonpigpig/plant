@@ -22,6 +22,15 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next)=>{
   const { requireAuth } = to.meta
   const { name } = to
+  // if (this.type !== '1') {
+  //   localStorage.removeItem('wishDetail')
+  // }
+  console.log('-------from---------:', from, to)
+  // debugger
+  const notRemoveName = [ 'Detail', 'WishTemplate' ]
+  // if (((!notRemoveName.includes(from.name) || !from.name) && to.name === 'Add')) {
+  //   localStorage.removeItem('wishDetail')
+  // }
   if (requireAuth){
     const reciever = ['ToCardList']
     if (reciever.includes(name)) {

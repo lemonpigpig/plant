@@ -15,7 +15,7 @@
           @blur="blur('isShowPhonePlace', 'phone')">
           <div class="placeholder-help">
             <template v-if="isShowPhonePlace">
-              <div>{{type === '0' ? '订花人' : '收花人'}}手机号码</div>
+              <div class="eg-help_china">{{type === '0' ? '订花人' : '收花人'}}手机号码</div>
               <div class="eg-help">Sender's tel</div>
             </template>
           </div>
@@ -49,7 +49,7 @@
             <img src="../assets/images/login/certificate-icon.png" alt="">
           </div>
           <div class="item-content">
-            <input type="number" class="item-input" v-model="certificate"
+            <input type="text" class="item-input" v-model="certificate"
             @focus="focus('isShowCertificatePlace')"
             @blur="blur('isShowCertificatePlace', 'certificate')">
             <div class="placeholder-help">
@@ -121,8 +121,9 @@ export default {
     ...mapActions([
       'login',
       'sendCode',
-      'checkCode',
-      'getCardList'
+      'checkReciever',
+      'getCardList',
+      'syncToken'
     ]),
     focus (type) {
       this.$set(this, type, false)
@@ -158,72 +159,89 @@ export default {
       }
       return true
     },
+    async recieverLogin ({ type = '', phone = '', code = '' } = {}) {
+      let { status } = await this.checkReciever({
+        recipient: type && type === 1 ? phone : this.phone,
+        token: type && type === 1 ? code : this.certificate
+      })
+      if (status === 0) {
+        this.storeLoginInfo({
+          code: type && type === 1 ? code : this.certificate,
+          phone: type && type === 1 ? phone :this.phone
+        }, 2)
+        const { data } = await this.getCardList({
+          recipient: type && type === 1 ? phone : this.phone,
+          // isRead: 0, //未读贺卡
+          token: type && type === 1 ? code : this.certificate
+        })
+        // 是否由登录态失效页面跳转而来
+        const { name } = this.$route.query
+        if (name) {
+          this.$router.push({name: name})
+        } else {
+          console.log('----cardlist----:', data)
+          if (data && data.length > 0) {
+            // 如果有贺卡
+            this.$router.push('/toList')
+          } else {
+            this.$router.push('/defaultCard')
+          }
+        }
+      }
+    },
     async userLogin () {
       if (!this.check()) {
         return
       }
       if (this.type === '0') {
         // 订花人
-        await this.login({
+        const {status, data} = await  this.login({
           username: this.phone,
           token: this.certificate,
           type: 6
-        }).then((res) => {
-          console.log(res)
+        })
+        if (status === 0) {
+          localStorage.setItem('Authorization', data.UserId)
           this.storeLoginInfo({
             code: this.certificate,
             phone: this.phone
           }, 1)
-          const { name } = this.$route.query
-          if (name) {
-            this.$router.push({name: name})
-          } else {
-            this.$router.push('/giver')
-          }
-        })
-      } else if (this.type === '1') {
-        let { status } = await this.checkCode({
-          mobile: this.phone,
-          type: 6,
-          token: this.certificate
-        })
-        if (status === 0) {
-          const {data} = await this.getCardList({
-            recipient: this.phone,
-            // isRead: 0, //未读贺卡
-            token: this.certificate
+          const {status} = await this.syncToken({
+            giver: this.phone,
+            token: this.certificate,
+            uid: data.uid
           })
-          // 是否由登录态失效页面跳转而来
-          const { name } = this.$route.query
-          if (name) {
-            this.$router.push({name: name})
-          } else {
-            console.log('----cardlist----:', data)
-            if (data && data.length > 0) {
-              // 如果有贺卡
-              this.$router.push('/toList')
+          if (status === 0) {
+            const { name } = this.$route.query
+            if (name) {
+              this.$router.push({name: name})
             } else {
-              this.$router.push('/defaultCard')
+              this.$router.push('/giver')
             }
           }
-         
-          this.storeLoginInfo({
-            code: this.certificate,
-            phone: this.phone
-          }, 2)
-          
+          console.log('----status----:', status, data.uid)
         }
+      } else if (this.type === '1') {
+       this.recieverLogin()
       }
     },
     sendCaptchaCode () {
       this.url = this.url+'&b='+Math.random()
+    },
+    autoLoginForReciever () {
+      const recieveInfo = Cookie.get('recieveInfo') && JSON.parse(Cookie.get('recieveInfo'))
+      if (recieveInfo && recieveInfo.code && recieveInfo.phone && recieveInfo.code !== '' && recieveInfo.phone !== '' ) {
+        this.recieverLogin({ type: 1, code: recieveInfo.code, phone: recieveInfo.phone })
+      }
     }
   },
   mixins: [sendCode],
   mounted () {
     tool.clearAllStorage()
     this.type = this.$route.params.id
-    console.log('name-------:', this.$route.query.name)
+    if (this.type === '1') {
+      this.autoLoginForReciever()
+    }
     console.log('from id:', typeof this.type, this.type)
   },
   watch: {
@@ -261,6 +279,9 @@ export default {
   background: #FFE7E7;
   flex-direction: column;
   font-size: 0.24rem;
+  .eg-help_china {
+    font-size: .28rem;
+  }
   .submit-btn {
     width: 100%;
     height: 0.88rem;
@@ -311,7 +332,7 @@ export default {
         content: '';
         background: #FF6463;
         left: 36px;
-        bottom: -10px;
+        bottom: -16px;
         right: 0px;
         height: 1px;
       }
@@ -330,7 +351,7 @@ export default {
         .placeholder-help {
           .eg-help {
             margin-top: 5px;
-            font-size: 0.2rem
+            font-size: 0.25rem
           }
           .send-btn_captchas {
             border: none;

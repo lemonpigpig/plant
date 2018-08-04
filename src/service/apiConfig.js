@@ -26,6 +26,9 @@ export const cardList = { url: '/greeting/cards', method: 'GET' }
 /**add card */
 export const addCard = { url: '/greeting/cards', method: 'post' }
 
+/**add card */
+export const editCard = { url: '/greeting/cards/:id', method: 'PUT' }
+
 /**标记电子贺卡为已读 */
 export const tagRead = { url: '/greeting/cards/:id/read', method: 'post' }
 
@@ -34,3 +37,9 @@ export const categoryList = { url: '/greeting/categories', method: 'GET' }
 
 /**获取祝福语模版 */
 export const wishTemplateList = { url: '/greeting/wishes', method: 'GET' }
+
+/**短信验证码同步方案 */
+export const syncToken = { url: '/greeting/sync', method: 'GET' }
+
+/**收华人验证 */
+export const checkReciever = { url: '/greeting/check', method: 'GET' }
