@@ -25,12 +25,13 @@ router.beforeEach((to, from, next)=>{
   // if (this.type !== '1') {
   //   localStorage.removeItem('wishDetail')
   // }
-  console.log('-------from---------:', from, to)
-  // debugger
-  const notRemoveName = [ 'Detail', 'WishTemplate' ]
-  // if (((!notRemoveName.includes(from.name) || !from.name) && to.name === 'Add')) {
-  //   localStorage.removeItem('wishDetail')
-  // }
+  const notRemove = ['AddPreview', 'WishTemplate']
+  if (to.name === 'Add') {
+    console.log('-------from---------:', from, to)
+    if (!notRemove.includes(from.name)) {
+      localStorage.removeItem('wishDetail')
+    }
+  }
   if (requireAuth){
     const reciever = ['ToCardList']
     if (reciever.includes(name)) {

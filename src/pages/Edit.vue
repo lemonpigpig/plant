@@ -125,6 +125,7 @@ import { mapActions, mapGetters } from "vuex"
 import Cookie from 'js-cookie'
 import { rule, tool } from '@/utils'
 
+let wishDetail = null
 export default {
   data () {
     return {
@@ -150,7 +151,7 @@ export default {
       // this.activeRadio = type
       if (type === 2) {
         this.storeTempDeatil()
-        this.$router.push('/wishTemplate')
+        this.$router.push('/wishTemplate?from=edit')
       }
     },
     focus (type) {
@@ -187,7 +188,6 @@ export default {
       return true
     },
     handleSubmit () {
-      const {type} = this.$route.query
       const submitData = {
         giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
         recipient: this.phone,
@@ -219,23 +219,24 @@ export default {
       this.msg = detail.message
     },
     storeTempDeatil () {
-      const wishDetail = {
+      const wishDetailNew = {
         from: this.signature,
         message: this.msg,
         phone: this.phone,
         recipient: this.phone,
         signature: this.signature,
-        title: this.title
+        title: this.title,
+        id: wishDetail.id
       }
-      localStorage.setItem('wishDetail', JSON.stringify(wishDetail))
+      localStorage.setItem('wishDetail', JSON.stringify(wishDetailNew))
     },
     handlePreiw () {
       this.storeTempDeatil()
-      this.$router.push('/detail/1?status=0')
+      this.$router.push('/editPreview?status=0')
     }
   },
   mounted () {
-    const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
+    wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
     wishDetail && this.handleUpdate(wishDetail)
   },
   watch: {

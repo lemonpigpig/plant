@@ -37,7 +37,7 @@
     <div class="flower-right_top">
       <img src="../assets/images/card/flower-right_top.png" alt="">
     </div>
-    <div class="btn edit-btn" v-if="type && status === '0'" @click="handleEdit">
+    <div class="btn edit-btn" v-if="status === '0'" @click="handleEdit">
       <span class="btn-zn_font" >编辑</span>
       <span class="btn-en_font">re-edit</span>
     </div>
@@ -54,7 +54,6 @@ export default {
         from: '',
         createdAt: ''
       },
-      type: null,
       status: null
     }
   },
@@ -77,17 +76,17 @@ export default {
   },
   methods: {
     handleEdit () {
-      this.$router.push(`/add?type=${this.type}`)
+      this.$router.push(`/edit`)
     }
   },
   mounted () {
     this.content = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')).message
     this.detail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
-    this.type = this.$route.params.type
     this.status = this.$route.query.status
     const { tab } = this.$route.query
-    localStorage.setItem('tabCurrent', tab)
-    console.log('this r$router:', this.$route.params.type)
+    if (tab) {
+      localStorage.setItem('tabCurrent', tab)
+    }
   },
   watch: {
   

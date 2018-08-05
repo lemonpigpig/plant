@@ -49,7 +49,12 @@ export default {
       const wishDetail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
       wishDetail.message = item.content
       localStorage.setItem('wishDetail', JSON.stringify(wishDetail))
-      this.$router.push('/add')
+      const { from } = this.$route.query
+      if (from === 'add') {
+        this.$router.push('/add')
+      } else if (from === 'edit') {
+        this.$router.push('/edit')
+      }
       console.log('---update wishDetail-----:', wishDetail)
     },
     handleSwitch (index, item) {
@@ -103,12 +108,13 @@ export default {
   background: #FFE7E7;
   font-size: 0.28rem;
   overflow: scroll;
+  height: 100vh;
   .scroll-outer_box {
     height: 0.72rem;
     overflow: hidden;
     padding-top: .34rem;
     padding-bottom: 0.3rem;
-    position: fixed;
+    // position: fixed;
     width: 100%;
     background: #FFE7E7;
     z-index: 999;
@@ -143,12 +149,17 @@ export default {
   }
   .template-list {
     color: #333333;
-    margin-top: 1.36rem;
+    // margin-top: 1.36rem;
     padding: 0 0.32rem;
     text-align: left;
     font-size: 0.28rem;
     position: relative;
     z-index: 998;
+    height: calc(100vh - 1.2rem);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: scroll;
     .template-item {
       padding: 0.42rem 0.88rem 0.52rem;
       background: rgba(255,255,255,.66); 

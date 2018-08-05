@@ -6,7 +6,9 @@ import Giver from '@/pages/Giver'
 import Add from '@/pages/Add'
 import Edit from '@/pages/Edit'
 import WishTemplate from '@/pages/WishTemplate'
-import Detail from '@/pages/Detail'
+import EditPreview from '@/pages/editPreview'
+import AddPreview from '@/pages/addPreview'
+
 import CardList from '@/pages/CardList'
 import ToCardList from '@/pages/ToCardList'
 import DefaultCard from '@/pages/DefaultCard'
@@ -55,9 +57,14 @@ export default new Router({
       }
     },
     {
-      path: '/detail/:type',
-      name: 'Detail',
-      component: Detail
+      path: '/addPreview',
+      name: 'AddPreview',
+      component: AddPreview
+    },
+    {
+      path: '/editPreview',
+      name: 'EditPreview',
+      component: EditPreview
     },
     {
       path: '/list',

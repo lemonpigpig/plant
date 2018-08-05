@@ -70,7 +70,7 @@ export default {
         })
       }
       localStorage.setItem('wishDetail', JSON.stringify(item))
-      this.$router.push(`/detail/1?tab=${this.currentTabIndex}`)
+      this.$router.push(`/editPreview?tab=${this.currentTabIndex}&status=1`)
     },
     handleSwitch (type) {
       this.currentTabIndex = type

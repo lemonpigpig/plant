@@ -1,6 +1,6 @@
 <template>
   <div class="card-list flex-box">
-    <div class="card-list_content">
+    <div class="card-list_content" v-infinite-scroll="loadMore">
       <div class="content-item" v-for="(item, index) in list" @click="handlePreview(item)" :key="index">
         <div class="content-title">
           To：{{item.to}}
@@ -28,7 +28,8 @@ import Cookie from 'js-cookie'
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      metadata: {}
     }
   },
   methods: {
@@ -37,23 +38,51 @@ export default {
     ]),
     handlePreview (item) {
       localStorage.setItem('wishDetail', JSON.stringify(item))
-      this.$router.push(`/detail/0?status=${item.status}`)
+      this.$router.push(`/editPreview?status=${item.status}`)
+    },
+    loadMore () {
+      let params = {
+        giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
+        token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code,
+      }
+      if (this.metadata.maxid) {
+        params.maxid = this.metadata.maxid
+        params.limit = 10
+      }
+      this.getList(params)
+      console.log('------loadMore------:')
+    },
+    async getList (params) {
+      const {status, data, metadata} = await this.getCardList(params)
+      console.log('status,d ata:', status, data)
+      if (status === 0) {
+        this.metadata = metadata
+        this.list = data.map(item => Object.assign({}, item, {
+          status: item.readAt ? 1 : 0,
+          phone: item.recipient,
+          createdAt: item.createdAt && item.createdAt.split('T')[0],
+          to: item.title,
+        }))
+      }
     }
   },
   mounted () {
-    this.getCardList({
-      giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
-      token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code,
-      // 9527,
-      //localStorage.getItem('giverInfo') && JSON.parse(localStorage.getItem('giverInfo')).code,
-    }).then((res) => {
-      this.list = res.data.map(item => Object.assign({}, item, {
-        status: item.readAt ? 1 : 0,
-        phone: item.recipient,
-        createdAt: item.createdAt && item.createdAt.split('T')[0],
-        to: item.title,
-      }))
-    })
+    // this.getCardList({
+    //   giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
+    //   token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code
+    // }).then((res) => {
+    //   this.metadata = res.data.metadata
+    //   this.list = res.data.map(item => Object.assign({}, item, {
+    //     status: item.readAt ? 1 : 0,
+    //     phone: item.recipient,
+    //     createdAt: item.createdAt && item.createdAt.split('T')[0],
+    //     to: item.title,
+    //   }))
+    // })
+    // this.getList({
+    //   giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
+    //   token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code
+    // })
   },
   watch: {
   
