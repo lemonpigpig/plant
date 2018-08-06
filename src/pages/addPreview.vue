@@ -2,7 +2,7 @@
   <div class="card-detail content-box">
     <div class="detail-box">
       <div class="layout-butterfly">
-        <img src="../assets/images/card/butterfly.png" alt="">
+        <img src="https://h5.boqiicdn.com/shop-min/butterfly.png" alt="">
       </div>
       <div class="layout-title">
         To：{{detail.title}}
@@ -17,34 +17,33 @@
       </div>
       <div class="layout-bottom_from">
         <div class="layout-butterfly2">
-          <img src="../assets/images/card/butterfly-type2.png" alt="">
+          <img src="https://h5.boqiicdn.com/shop-min/butterfly-type2.png" alt="">
         </div>
         <div class="layout-from">
-          From：{{detail.signature ? detail.signature : '匿名'}}
+          From：{{detail.signature ? detail.signature : '神秘人'}}
         </div>
         <!-- <div>From：{{detail.signature ? detail.signature : '匿名'}}</div> -->
         <div class="layout-line">
           <img src="../assets/images/card/lang-line.png" alt="">
         </div>
         <div class="layout-time">
-          {{detail.createdAt && detail.createdAt.split('T')[0]}}
+          {{getFormatDate(detail.createdAt)}}
         </div>
       </div>
+      <div class="flower-bottom_left">
+         <img src="https://api-dev.boqiicdn.com/f5JhliPT%E5%9B%BE%E5%B1%821%403x.png" alt="">
+      </div>
+      <div class="flower-right_top">
+        <img src="https://h5.boqiicdn.com/shop-min/flower-right_top.png" alt="">
+      </div>
     </div>
-    <div class="flower-bottom_left">
-      <img src="../assets/images/card/flower-bottom_left.png" alt="">
-    </div>
-    <div class="flower-right_top">
-      <img src="../assets/images/card/flower-right_top.png" alt="">
-    </div>
-    <div class="btn edit-btn"  @click="handleEdit">
-      <span class="btn-zn_font" >编辑</span>
-      <span class="btn-en_font">re-edit</span>
-    </div>
+  
   </div>
 </template>
 
 <script>
+import { tool } from '@/utils'
+
 export default {
   data () {
     return {
@@ -75,6 +74,9 @@ export default {
     }
   },
   methods: {
+    getFormatDate (str) {
+      return tool.getFormatDate(str)
+    },
     handleEdit () {
       this.$router.push(`/add`)
     }
@@ -131,13 +133,6 @@ export default {
     position: absolute;
     bottom: .9rem;
     right: -.5rem;
-  }
-  .flower-bottom_left {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 2.55rem;
-    height: 2.76rem;
   }
   .flower-right_top {
     position: absolute;
@@ -196,7 +191,7 @@ export default {
       text-align: left;
       .content-item {
         position: relative;
-        height: .50rem;
+        // height: .50rem;
         margin-bottom: 0.2rem;
         &:first-child {
           text-indent: .5rem;

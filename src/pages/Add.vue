@@ -4,7 +4,7 @@
       <img src="../assets/images/add/add-left_top.png" alt="">
     </div>
     <div class="add-right_bottom">
-      <img src="../assets/images/add/add-right_bottom.png" alt="">
+      <img src="https://h5.boqiicdn.com/shop-min/add-right_bottom.png" alt="">
     </div>
     <div class="form-lists">
       <div class="form-item">
@@ -14,7 +14,8 @@
         <div class="item-content">
           <input type="number" class="item-input"
           @focus="focus('isShowPhonePlace')"
-          @blur="blur('isShowPhonePlace', 'phone')" 
+          @blur="blur('isShowPhonePlace', 'phone')"
+          maxlength="11"
           v-model="phone">
           <div class="placeholder-help" v-if="isShowPhonePlace">
             <template>
@@ -173,8 +174,15 @@ export default {
       }
     },
     check (submitData) {
-      if (!rule.checkPhone(submitData.giver)) {
-        this.$message('电话号码不能为空！')
+      if (!submitData.recipient) {
+        this.$message('收花人电话号码不能为空！')
+      }
+      if (!rule.checkPhone(submitData.recipient)) {
+        this.$message('收花人电话号码错误！')
+        return false
+      }
+      if (submitData.giver === submitData.recipient) {
+        this.$message('订花人不能是自己！')
         return false
       }
       if (!submitData.title) {

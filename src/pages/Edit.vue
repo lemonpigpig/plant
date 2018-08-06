@@ -4,7 +4,7 @@
       <img src="../assets/images/add/add-left_top.png" alt="">
     </div>
     <div class="add-right_bottom">
-      <img src="../assets/images/add/add-right_bottom.png" alt="">
+      <img src="https://h5.boqiicdn.com/shop-min/add-right_bottom.png" alt="">
     </div>
     <div class="form-lists">
       <div class="form-item">

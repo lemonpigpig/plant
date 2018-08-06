@@ -34,8 +34,8 @@
             @blur="blur('isShowCaptchaPlace', 'captcha')">
             <div class="placeholder-help">
               <div v-if="isShowCaptchaPlace">
-                <div>图形验证码</div>
-                <div class="eg-help">Verification code</div>
+                <div class="eg-help_china">图形验证码</div>
+                <div class="eg-help">Graphics code</div>
               </div>
               <div class="send-btn send-btn_captchas" @click="sendCaptchaCode">
                 <img :src="url" alt="">
@@ -54,7 +54,7 @@
             @blur="blur('isShowCertificatePlace', 'certificate')">
             <div class="placeholder-help">
               <div v-if="isShowCertificatePlace">
-                <div>手机验证码</div>
+                <div class="eg-help_china">手机验证码</div>
                 <div class="eg-help">Verification code</div>
               </div>
               <div v-if="show_send">
@@ -239,7 +239,8 @@ export default {
   mounted () {
     tool.clearAllStorage()
     this.type = this.$route.params.id
-    if (this.type === '1') {
+    const { exchange } = this.$route.query
+    if (this.type === '1' && !exchange) {
       this.autoLoginForReciever()
     }
     console.log('from id:', typeof this.type, this.type)
@@ -367,7 +368,7 @@ export default {
           height: 100%;
           color: #FF6463;
           background: transparent;
-          font-size: 0.26rem;
+          font-size: 0.28rem;
         }
        
       }

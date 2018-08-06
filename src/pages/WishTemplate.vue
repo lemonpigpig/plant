@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="layout-flower">
-      <img src="../assets/images/login/flower.png" alt="">
+      <img src="https://h5.boqiicdn.com/shop-min/flower.png" alt="">
     </div>
     <div class="layout-flower_picker">
       <img src="../assets/images/flower-picer_reverse.png" alt="">

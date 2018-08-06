@@ -5,9 +5,10 @@ import { tool } from '../utils';
 
 class ApiNodeAction extends ApiBaseAction {
 	constructor() {
-		console.log('ApiPHPAction constructor')
+		
 		super();
-		this.$baseUrl = NODEAPI;
+    this.$baseUrl = NODEAPI;
+    console.log('ApiPHPAction constructor', '------NODEAPI-----', NODEAPI)
     this.auth = new BoqiiAuth();
 		this.$defaultHeaders = (params) => {
 			return {

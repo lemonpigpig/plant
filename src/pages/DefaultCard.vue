@@ -2,7 +2,7 @@
   <div class="card-detail content-box">
     <div class="detail-box">
       <div class="layout-butterfly">
-        <img src="../assets/images/card/butterfly.png" alt="">
+        <img src="https://h5.boqiicdn.com/shop-min/butterfly.png" alt="">
       </div>
       <div class="layout-title">
         To：尊敬的顾客
@@ -10,22 +10,39 @@
       <div class="layout-line_big">
         <img src="../assets/images/card/lang-line_big.png" alt="">
       </div>
-      <div class="layout-butterfly2">
-        <img src="../assets/images/card/butterfly-type2.png" alt="">
-      </div>
-      <div class="layout-from">
-        From：波奇四季鲜花店
-      </div>
-      <div class="layout-line">
-        <img src="../assets/images/card/lang-line.png" alt="">
-      </div>
-      <div class="layout-time">
-        {{currentDate}}
-      </div>
       <div class="detail-content">
         <div v-for="(item, index) in rowsArr" class="content-item">
           {{item}}
         </div>
+      </div>
+
+      <div class="layout-bottom_from">
+        <div class="layout-butterfly2">
+          <img src="https://h5.boqiicdn.com/shop-min/butterfly-type2.png" alt="">
+        </div>
+        <div class="layout-from">
+          From：波奇四季鲜花店
+        </div>
+        <div class="layout-line">
+          <img src="../assets/images/card/lang-line.png" alt="">
+        </div>
+        <div class="layout-time">
+          {{currentDate}}
+        </div>
+
+      </div>
+
+      <div class="reciever-left">
+        <img src="https://api-dev.boqiicdn.com/Ff9zQCpWlayout-left.png" alt="">
+      </div>
+      <div class="reciever-top_right">
+        <img src="https://api-dev.boqiicdn.com/lIQvKJkBlayout-right_top.png" alt="">
+      </div>
+      <div class="reciever-left_bottom">
+        <img src="https://api-dev.boqiicdn.com/ztwFb4julayout-left_bottom.png" alt="">
+      </div>
+      <div class="reciever-right_bottom">
+        <img src="https://api-dev.boqiicdn.com/IteoH1ihlayout-right_bottom.png" alt="">
       </div>
     </div>
   </div>
@@ -77,12 +94,56 @@ export default {
   padding: 0 .32rem 0 .32rem;
   box-sizing: border-box;
   display: flex;
+  flex: 1;
+  height: 100vh;
+  .layout-butterfly2 {
+    width: .66rem;
+    height: .7rem;
+    position: absolute;
+    bottom: .9rem;
+    right: -.5rem;
+  }
+  .layout-bottom_from {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    // width: 1.96rem;
+    float: right;
+    margin-top: .8rem;
+    position: relative;
+    right: .8rem;
+  }
+  .reciever-top_right {
+    position: absolute;
+    top: -.3rem;
+    right: 0;
+    width: 2.06rem;
+  }
+  .reciever-left {
+    position: absolute;
+    bottom: 1.7rem;
+    left: 0;
+    width: 2.06rem;
+  }
+  .reciever-left_bottom {
+    position: absolute;
+    bottom: -.6rem;
+    left: -.32rem;
+    width: 1.5rem;
+  }
+  .reciever-right_bottom {
+    position: absolute;
+    bottom: -.6rem;
+    right: -.32rem;
+    width: 3.2rem;
+  }
   // overflow: hidden;
   .detail-box {
     background: #FFFFFF;
     position: relative;
     width: 100%;
-    height: 11.1rem;
+    height: 9.8rem;
     margin-top: .34rem;
     .layout-butterfly {
       width: .78rem;
@@ -90,13 +151,6 @@ export default {
       position: absolute;
       top: .45rem;
       left: .08rem;
-    }
-    .layout-butterfly2 {
-      width: .66rem;
-      height: .7rem;
-      position: absolute;
-      bottom: 2.26rem;
-      right: .25rem;;
     }
     .layout-title {
       padding-top: 1.4rem;
@@ -115,26 +169,22 @@ export default {
       height: .22rem;
     }
     .layout-line {
-      position: absolute;
       right: .82rem;
       bottom: 1.78rem;
-      width: 1.96rem;
+      width: 3rem;
       height: .18rem;
     }
     .layout-from {
       color: #333333;
       font-weight: bold;
+      font-size: 0.3rem;    font-weight: bold;
       font-size: 0.3rem;
-      position: absolute;
-      right: .78rem;
-      bottom: 2.05rem;
     }
     .layout-time {
       color: #333333;
       font-size: .22rem;
-      position: absolute;
-      right: 1.28rem;
-      bottom: 1.38rem;
+      text-align: center;
+      margin-top: .22rem;
     }
     .detail-content {
       padding: 0 .62rem;

@@ -3,7 +3,7 @@
     <div class="card-list_content" v-infinite-scroll="loadMore">
       <div class="content-item" v-for="(item, index) in list" @click="handlePreview(item)" :key="index">
         <div class="content-title">
-          To：{{item.to}}
+          To：{{item.to}}({{item.recipient}})
         </div>
         <div class="content-short">
           {{item.message}}
@@ -24,6 +24,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex"
 import Cookie from 'js-cookie'
+import { tool } from '@/utils'
+
 
 export default {
   data () {
@@ -45,8 +47,8 @@ export default {
         giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
         token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code,
       }
-      if (this.metadata.maxid) {
-        params.maxid = this.metadata.maxid
+      if (this.metadata.minid) {
+        params.minid = this.metadata.minid
         params.limit = 10
       }
       this.getList(params)
@@ -57,32 +59,19 @@ export default {
       console.log('status,d ata:', status, data)
       if (status === 0) {
         this.metadata = metadata
-        this.list = data.map(item => Object.assign({}, item, {
-          status: item.readAt ? 1 : 0,
-          phone: item.recipient,
-          createdAt: item.createdAt && item.createdAt.split('T')[0],
-          to: item.title,
-        }))
+        if (data && data.length > 0) {
+          this.list = data.map(item => Object.assign({}, item, {
+            status: item.readAt ? 1 : 0,
+            phone: item.recipient,
+            time: tool.getFormatTime(item.createdAt),
+            // item.createdAt && `${item.createdAt.split('T')[0]} ${item.createdAt.split('T')[1] && item.createdAt.split('T')[1].split('.')[0]}`,
+            to: item.title,
+          }))
+        }
       }
     }
   },
   mounted () {
-    // this.getCardList({
-    //   giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
-    //   token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code
-    // }).then((res) => {
-    //   this.metadata = res.data.metadata
-    //   this.list = res.data.map(item => Object.assign({}, item, {
-    //     status: item.readAt ? 1 : 0,
-    //     phone: item.recipient,
-    //     createdAt: item.createdAt && item.createdAt.split('T')[0],
-    //     to: item.title,
-    //   }))
-    // })
-    // this.getList({
-    //   giver: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).phone,
-    //   token: Cookie.get('giverInfo') && JSON.parse(Cookie.get('giverInfo')).code
-    // })
   },
   watch: {
   
@@ -117,6 +106,10 @@ export default {
       line-height: .44rem;
       height: .8rem;
       overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     .time {
       text-align: right;

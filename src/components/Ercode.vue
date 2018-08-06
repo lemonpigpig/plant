@@ -3,9 +3,9 @@
     <div class="ercode-box">
       <div class="ercode-content">
         <div class="flower">
-          <img src="../assets/images/login/flower.png" alt="">
+          <img src="https://h5.boqiicdn.com/shop-min/flower.png" alt="">
         </div>
-        <img src="../assets/images/ercode.png" alt="">
+        <img src="https://h5.boqiicdn.com/shop-min/ercode.png" alt="">
         <div class="flower-picker">
           <img src="../assets/images/login/flower-picker.png" alt="">
         </div>
