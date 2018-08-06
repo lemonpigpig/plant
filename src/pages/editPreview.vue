@@ -38,7 +38,7 @@
       </div>
     </div>
    
-    <div class="btn edit-btn" v-if="status === '0'" @click="handleEdit">
+    <div class="btn edit-btn preview-btn" v-if="status === '0'" @click="handleEdit">
       <span class="btn-zn_font" >编辑</span>
       <span class="btn-en_font">re-edit</span>
     </div>
@@ -109,18 +109,9 @@ export default {
   display: flex;
   flex: 1;
   height: 100vh;
-  // .layout-bottom_from {
-  //   text-align: left;
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-content: space-between;
-  //   // width: 1.96rem;
-  //   float: right;
-  //   margin-top: 1.5rem;
-  //   margin-bottom: .6rem;
-  //   position: relative;
-  //   right: .8rem;
-  // }
+  .layout-bottom_from {
+    margin-top: .4rem;
+  }
   .layout-line {
     // position: absolute;
     right: .82rem;
@@ -155,7 +146,8 @@ export default {
     background: #FFFFFF;
     position: relative;
     width: 100%;
-    height: 11.1rem;
+    // height: 11.1rem;
+    height: 9.4rem;
     margin-top: .34rem;
     .layout-butterfly {
       width: .78rem;

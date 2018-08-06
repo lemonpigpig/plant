@@ -110,9 +110,11 @@ export default {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      word-wrap: break-word;
     }
     .time {
       text-align: right;
+      margin-top: .1rem;
     }
     .status-icon {
       position: absolute;
