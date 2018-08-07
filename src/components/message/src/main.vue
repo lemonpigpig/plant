@@ -42,6 +42,7 @@
 
     watch: {
       closed(newVal) {
+        this.destroyElement()
         if (newVal) {
           this.visible = false;
           this.clearTimer()
@@ -77,6 +78,7 @@
       this.startTimer()
     },
     beforeDestroy() {
+      // this.destroyElement()
     }
   };
 </script>

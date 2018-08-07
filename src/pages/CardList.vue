@@ -109,7 +109,9 @@ export default {
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
+      /*! autoprefixer: off */
       -webkit-box-orient: vertical;
+      /* autoprefixer: on */
       word-wrap: break-word;
     }
     .time {

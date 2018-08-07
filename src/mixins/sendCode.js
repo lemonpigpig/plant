@@ -18,6 +18,7 @@ export default {
         mobile: this.phone,
         captcha: this.captcha,
         type: 6,
+        os: 'WEB',
         params: {
           requestno: 1,
         }

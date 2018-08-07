@@ -105,7 +105,7 @@ export default {
       isShowPhonePlace: true,
       isShowCaptchaPlace: true,
       isShowCertificatePlace: true,
-      url: `${PLANTDOMAIN}/extern/captchas?width=110&height=40&length=4&os=WEB`,
+      url: `${PLANTDOMAIN}/extern/captchas?width=110&height=40&length=4`,
       type: null,
     }
   },

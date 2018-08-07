@@ -1,7 +1,7 @@
 
 console.log('process.env.NODE_ENV"', process.env.NODE_ENV)
 export const isProduction = process.env.NODE_ENV === 'production';
-export const NODEAPI = isProduction ? 'https://api-plant.boqii.com' : 'https://api-plant-dev.boqii.com/api/v2';
+export const NODEAPI = isProduction ? 'https://api-plant.boqii.com/api/v2' : 'https://api-plant-dev.boqii.com/api/v2';
 export const PLANTDOMAIN = isProduction ? 'https://api-plant.boqii.com' : 'https://api-plant-dev.boqii.com';
 export const QINIU_CDN = 'https://h5.boqiicdn.com/shop-min';
 
