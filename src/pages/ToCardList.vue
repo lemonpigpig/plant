@@ -168,6 +168,11 @@ export default {
 @import '../assets/css/layout.scss'; /*引入公共样式*/
 .to-card_list {
   overflow: scroll;
+  .submit-btn {
+    width: 6.72rem;
+    margin-left: auto;
+    margin-right: auto
+  }
   .tabber {
     display: flex;
     background: #ffffff;

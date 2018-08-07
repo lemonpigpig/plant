@@ -1,6 +1,6 @@
 <template>
   <div class="card-detail content-box">
-    <div class="detail-box">
+    <div class="detail-box" :style="{height: status === '0' ? '9.4rem' : '11.1rem'}">
       <div class="layout-butterfly">
         <img src="https://h5.boqiicdn.com/shop-min/butterfly.png" alt="">
       </div>
