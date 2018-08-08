@@ -1,5 +1,5 @@
 <template>
-  <div class="card-detail content-box">
+  <!-- <div class="card-detail content-box">
     <div class="detail-box">
       <div class="layout-butterfly">
         <img src="https://h5.boqiicdn.com/shop-min/butterfly.png" alt="">
@@ -22,7 +22,6 @@
         <div class="layout-from">
           From：{{detail.signature ? detail.signature : '神秘人'}}
         </div>
-        <!-- <div>From：{{detail.signature ? detail.signature : '匿名'}}</div> -->
         <div class="layout-line">
           <img src="../assets/images/card/lang-line.png" alt="">
         </div>
@@ -38,63 +37,47 @@
       </div>
     </div>
   
-  </div>
+  </div> -->
+  <Detail/>
 </template>
 
 <script>
 import { tool } from '@/utils'
+import Detail from '@/components/ui/Detail'
 
 export default {
   data () {
     return {
-      content: '',
-      detail: {
-        title: '',
-        from: '',
-        createdAt: ''
-      },
-      status: null
+    //   content: '',
+    //   detail: {
+    //     title: '',
+    //     from: '',
+    //     createdAt: ''
+    //   },
+    //   status: null
     }
   },
-  computed: {
-    rowsArr() {
-      let rows = Math.ceil((this.content.length+2)/20)
-      let start = 0
-      let rowsArr = []
-      for (var i=0; i<rows; i++) {
-        if (i === 0) {
-          rowsArr.push(this.content.substring(start, 18))
-          start = 18
-        } else {
-          rowsArr.push(this.content.substring(start, start+20))
-          start = start+20
-        }
-      }
-      return rowsArr
-    }
+  components: {
+    Detail
   },
   methods: {
-    getFormatDate (str) {
-      return tool.getFormatDate(str)
-    },
-    handleEdit () {
-      this.$router.push(`/add`)
-    }
+    // getFormatDate (str) {
+    //   return tool.getFormatDate(str)
+    // },
+    // handleEdit () {
+    //   this.$router.push(`/add`)
+    // }
   },
   mounted () {
-    this.content = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')).message
-    this.detail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
-    // const { tab } = this.$route.query
-    // localStorage.setItem('tabCurrent', tab)
-  },
-  watch: {
-  
+    // this.content = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')).message
+    // this.detail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
   }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/css/layout.scss'; /*引入公共样式*/
+// @import '../assets/css/layout.scss';
+ /*引入公共样式*/
 
 .card-detail {
   padding: 0 .32rem 0 .32rem;

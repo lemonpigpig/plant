@@ -1,12 +1,10 @@
 import Message from '@/components/message'
-import Toast from '@/components/ui/Toast.vue'
 
 const components = [
-  Message,
-  Toast
+  Message
 ]
+// here add global component or directive
 const install = function(Vue, opts = {}) {
-  
   components.forEach(component => {
     console.log('-------component-----:', component.name)
     Vue.component(component.name, component)

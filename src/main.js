@@ -16,7 +16,7 @@ Vue.use(infiniteScroll)
 import router from './router'
 
 import '@/lib/font-size.js'
-
+import './assets/css/layout.scss'
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next)=>{

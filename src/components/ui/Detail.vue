@@ -1,49 +1,46 @@
 <template>
   <div class="card-detail content-box">
-    <div class="detail-box">
+    <div class="detail-box" :style="{height: status === '0' ? '9.4rem' : '11.1rem'}">
       <div class="layout-butterfly">
         <img src="https://h5.boqiicdn.com/shop-min/butterfly.png" alt="">
       </div>
       <div class="layout-title">
-        To：尊敬的顾客
+        To：{{detail.title}}
       </div>
       <div class="layout-line_big">
-        <img src="../assets/images/card/lang-line_big.png" alt="">
+        <img src="../../assets/images/card/lang-line_big.png" alt="">
       </div>
       <div class="detail-content">
         <div v-for="(item, index) in rowsArr" class="content-item">
           {{item}}
         </div>
       </div>
-
       <div class="layout-bottom_from">
         <div class="layout-butterfly2">
           <img src="https://h5.boqiicdn.com/shop-min/butterfly-type2.png" alt="">
+          
         </div>
         <div class="layout-from">
-          From：波奇四季鲜花店
+          From：{{detail.signature ? detail.signature : '神秘人'}}
         </div>
         <div class="layout-line">
-          <img src="../assets/images/card/lang-line.png" alt="">
+          <img src="../../assets/images/card/lang-line.png" alt="">
         </div>
         <div class="layout-time">
-          {{currentDate}}
+          {{getFormatDate(detail.createdAt)}}
         </div>
-
       </div>
-
-      <div class="reciever-left">
-        <img src="https://api-dev.boqiicdn.com/Ff9zQCpWlayout-left.png" alt="">
+      <div class="flower-bottom_left">
+        <img src="https://api-dev.boqiicdn.com/f5JhliPT%E5%9B%BE%E5%B1%821%403x.png" alt="">
       </div>
-      <div class="reciever-top_right">
-        <img src="https://api-dev.boqiicdn.com/lIQvKJkBlayout-right_top.png" alt="">
+      <div class="flower-right_top">
+        <img src="https://h5.boqiicdn.com/shop-min/flower-right_top.png" alt="">
       </div>
-      <div class="reciever-left_bottom">
-        <img src="https://api-dev.boqiicdn.com/ztwFb4julayout-left_bottom.png" alt="">
-      </div>
-      <div class="reciever-right_bottom">
-        <img src="https://api-dev.boqiicdn.com/IteoH1ihlayout-right_bottom.png" alt="">
-      </div>
+    </div>
+   
+    <div class="btn edit-btn preview-btn" v-if="status === '0'" @click="handleEdit">
+      <span class="btn-zn_font" >编辑</span>
+      <span class="btn-en_font">re-edit</span>
     </div>
   </div>
 </template>
@@ -52,10 +49,16 @@
 import { tool } from '@/utils'
 
 export default {
+  name: 'Detail',
   data () {
     return {
-      currentDate: null,
-      content: '收到这束花，说明您身边的人在关心您祝福您。这一束鲜花，蕴含着设计师的创意，花艺师的努力和配送员的辛勤，希望您能喜欢。今后的岁月里，希望能继续得到您的支持，我们将继续为您提供真诚的服务。愿您天天开心，向您表示衷心的感谢和美好的祝福！'
+      content: '',
+      detail: {
+        title: '',
+        from: '',
+        createdAt: ''
+      },
+      status: null
     }
   },
   computed: {
@@ -76,10 +79,21 @@ export default {
     }
   },
   methods: {
-   
+    handleEdit () {
+      this.$router.push(`/edit`)
+    },
+    getFormatDate (str) {
+      return tool.getFormatDate(str)
+    },
   },
   mounted () {
-    this.currentDate = tool.getNowFormatDate()
+    this.content = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail')).message
+    this.detail = localStorage.getItem('wishDetail') && JSON.parse(localStorage.getItem('wishDetail'))
+    this.status = this.$route.query.status
+    const { tab } = this.$route.query
+    if (tab) {
+      localStorage.setItem('tabCurrent', tab)
+    }
   },
   watch: {
   
@@ -88,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss'; 
+// @import '@/assets/css/layout.scss'; 
 /*引入公共样式*/
 
 .card-detail {
@@ -97,6 +111,24 @@ export default {
   display: flex;
   flex: 1;
   height: 100vh;
+  .layout-bottom_from {
+    margin-top: .4rem;
+  }
+  .layout-line {
+    // position: absolute;
+    right: .82rem;
+    bottom: 1.78rem;
+    width: 1.96rem;
+    height: .18rem;
+  }
+  .layout-from {
+    color: #333333;
+    font-weight: bold;
+    font-size: 0.3rem;
+    // position: absolute;
+    // right: .78rem;
+    // bottom: 2.05rem;
+  }
   .layout-butterfly2 {
     width: .66rem;
     height: .7rem;
@@ -104,47 +136,20 @@ export default {
     bottom: .9rem;
     right: -.5rem;
   }
-  .layout-bottom_from {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-    // width: 1.96rem;
-    float: right;
-    margin-top: .8rem;
-    position: relative;
-    right: .8rem;
-  }
-  .reciever-top_right {
+  .flower-right_top {
     position: absolute;
-    top: -.3rem;
+    top: 0;
     right: 0;
-    width: 2.06rem;
-  }
-  .reciever-left {
-    position: absolute;
-    bottom: 1.7rem;
-    left: 0;
-    width: 2.06rem;
-  }
-  .reciever-left_bottom {
-    position: absolute;
-    bottom: -.6rem;
-    left: -.32rem;
-    width: 1.5rem;
-  }
-  .reciever-right_bottom {
-    position: absolute;
-    bottom: -.6rem;
-    right: -.32rem;
-    width: 3.2rem;
+    height: 2.56rem;
+    width: 2.76rem;
   }
   // overflow: hidden;
   .detail-box {
     background: #FFFFFF;
     position: relative;
     width: 100%;
-    height: 9.8rem;
+    // height: 11.1rem;
+    height: 9.4rem;
     margin-top: .34rem;
     .layout-butterfly {
       width: .78rem;
@@ -153,6 +158,7 @@ export default {
       top: .45rem;
       left: .08rem;
     }
+    
     .layout-title {
       padding-top: 1.4rem;
       margin-left: .62rem;
@@ -169,23 +175,15 @@ export default {
       width: 2.06rem;
       height: .22rem;
     }
-    .layout-line {
-      right: .82rem;
-      bottom: 1.78rem;
-      width: 3rem;
-      height: .18rem;
-    }
-    .layout-from {
-      color: #333333;
-      font-weight: bold;
-      font-size: 0.3rem;    font-weight: bold;
-      font-size: 0.3rem;
-    }
+   
     .layout-time {
       color: #333333;
       font-size: .22rem;
       text-align: center;
       margin-top: .22rem;
+      // position: absolute;
+      // right: 1.28rem;
+      // bottom: 1.38rem;
     }
     .detail-content {
       padding: 0 .62rem;
@@ -218,6 +216,8 @@ export default {
     width: 6.72rem;
     margin-top: .4rem;
     margin-bottom: .86rem;
+    position: fixed;
+    bottom: -40px;
   }
 }
 </style>
