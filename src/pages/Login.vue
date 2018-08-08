@@ -272,9 +272,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss'; 
-/*引入公共样式*/
-
 .login {
   color: #FF6463;
   flex: 1;

@@ -88,8 +88,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss'; 
-/*引入公共样式*/
 
 .card-detail {
   padding: 0 .32rem 0 .32rem;

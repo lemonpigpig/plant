@@ -64,8 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss'; 
-/*引入公共样式*/
 .giver {
     width: 100%;
     color: #FF6463;

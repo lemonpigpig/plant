@@ -17,6 +17,8 @@ import router from './router'
 
 import '@/lib/font-size.js'
 import './assets/css/layout.scss'
+import './assets/css/style.scss'
+
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next)=>{

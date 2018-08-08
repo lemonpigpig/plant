@@ -103,8 +103,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../assets/css/layout.scss'; 
-/*引入公共样式*/
 .wish-template {
   background: #FFE7E7;
   font-size: 0.28rem;
