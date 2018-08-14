@@ -107,6 +107,7 @@ export default {
       isShowCertificatePlace: true,
       url: `${PLANTDOMAIN}/extern/captchas?width=110&height=40&length=4`,
       type: null,
+      throttle: false
     }
   },
   computed: {
@@ -165,6 +166,7 @@ export default {
         token: type && type === 1 ? code : this.certificate
       })
       if (status === 0) {
+        this.throttle = false
         this.storeLoginInfo({
           code: type && type === 1 ? code : this.certificate,
           phone: type && type === 1 ? phone :this.phone
@@ -187,12 +189,20 @@ export default {
             this.$router.push('/defaultCard')
           }
         }
+      } else {
+        this.throttle = false
       }
     },
     async userLogin () {
       if (!this.check()) {
         return
       }
+      debugger
+      if (this.throttle) {
+        this.$message('登录中...')
+        return
+      }
+      this.throttle = true
       if (this.type === '0') {
         // 订花人
         const {status, data} = await  this.login({
@@ -200,6 +210,7 @@ export default {
           token: this.certificate,
           type: 6
         })
+        
         if (status === 0) {
           localStorage.setItem('Authorization', data.UserId)
           this.storeLoginInfo({
@@ -212,14 +223,19 @@ export default {
             uid: data.uid
           })
           if (status === 0) {
+            this.throttle = false
             const { name } = this.$route.query
             if (name) {
               this.$router.push({name: name})
             } else {
               this.$router.push('/giver')
             }
+          } else {
+            this.throttle = false
           }
           console.log('----status----:', status, data.uid)
+        } else {
+          this.throttle = false
         }
       } else if (this.type === '1') {
        this.recieverLogin()
@@ -238,7 +254,7 @@ export default {
   mixins: [sendCode],
   mounted () {
     tool.clearAllStorage()
-    this.type = this.$route.params.id
+    this.type = this.$route.params.id && decodeURI(this.$route.params.id).trim()
     const { exchange } = this.$route.query
     if (this.type === '1' && !exchange) {
       this.autoLoginForReciever()
