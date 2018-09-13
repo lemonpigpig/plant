@@ -1,6 +1,6 @@
-# boqiiplantcard
+# plantcard
 
-> 波奇四季电子贺卡
+> 电子贺卡
 
 ## Build Setup
 
