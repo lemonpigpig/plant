@@ -1,6 +1,6 @@
 import { NODEAPI } from './apiConfig';
 import ApiBaseAction from './apiBaseAction';
-import BoqiiAuth from 'boqii-node-auth';
+
 import { tool } from '../utils';
 
 class ApiNodeAction extends ApiBaseAction {
@@ -9,7 +9,7 @@ class ApiNodeAction extends ApiBaseAction {
 		super();
     this.$baseUrl = NODEAPI;
     console.log('ApiPHPAction constructor', '------NODEAPI-----', NODEAPI)
-    this.auth = new BoqiiAuth();
+
 		this.$defaultHeaders = (params) => {
 			return {
 				'Authorization':  localStorage.getItem('Authorization'),
